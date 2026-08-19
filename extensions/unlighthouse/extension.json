@@ -1,0 +1,9 @@
+{
+  "name": "unlighthouse",
+  "displayName": "Unlighthouse Multi-Page Performance Runner",
+  "version": "1.0.0",
+  "description": "Multi-page Lighthouse performance engine for continuous Core Web Vitals scoring.",
+  "command": "npx",
+  "args": ["-y", "unlighthouse"],
+  "env": {}
+}

@@ -1,0 +1,82 @@
+#!/usr/bin/env node
+/**
+ * SEO Skills AI — Unified Enterprise Multi-Agent CLI Entry Point
+ */
+import { spawn } from 'node:child_process';
+import path from 'node:path';
+
+const args = process.argv.slice(2);
+const command = args[0] || 'help';
+
+console.log(`\x1b[36m[SEO Skills AI]\x1b[0m Universal Multi-Agent CLI v1.1.0`);
+
+if (command === 'help' || command === '--help' || command === '-h') {
+  console.log(`
+Usage:
+  seoskills <command> [options]
+
+Commands:
+  audit <url>             Run parallel multi-agent full site audit
+  crawl <url> [max_pages] Run recursive multi-page site crawl & link graph
+  info-gain <url>         Analyze Google Information Gain patent score
+  fix <url>               Generate automated copy-paste code remediation patches
+  report <url>            Generate executive HTML audit report
+  doctor                  Run runtime environment diagnostics
+  setup                   Provision isolated virtualenv runtime
+  add <agent>             Install skills into agent harness (claude, antigravity, cursor, windsurf, all)
+  portability             Run cross-agent portability validation test
+`);
+  process.exit(0);
+}
+
+function runPython(scriptName, scriptArgs = []) {
+  const scriptPath = path.resolve(`./scripts/${scriptName}`);
+  const py = spawn('python', [scriptPath, ...scriptArgs], { stdio: 'inherit' });
+  py.on('close', (code) => process.exit(code || 0));
+}
+
+if (command === 'doctor') {
+  runPython('doctor.py');
+} else if (command === 'setup') {
+  runPython('setup_runtime.py');
+} else if (command === 'portability') {
+  runPython('portability_check.py');
+} else if (command === 'audit') {
+  const targetUrl = args[1];
+  if (!targetUrl) {
+    console.error('\x1b[31mError: Target URL is required.\x1b[0m Example: seoskills audit https://example.com');
+    process.exit(1);
+  }
+  runPython('full_audit.py', [targetUrl]);
+} else if (command === 'crawl') {
+  const targetUrl = args[1];
+  const maxPages = args[2] || '25';
+  if (!targetUrl) {
+    console.error('\x1b[31mError: Target URL is required.\x1b[0m Example: seoskills crawl https://example.com 25');
+    process.exit(1);
+  }
+  runPython('site_crawler.py', [targetUrl, maxPages]);
+} else if (command === 'info-gain') {
+  const targetUrl = args[1];
+  if (!targetUrl) {
+    console.error('\x1b[31mError: Target URL is required.\x1b[0m Example: seoskills info-gain https://example.com');
+    process.exit(1);
+  }
+  runPython('information_gain.py', [targetUrl]);
+} else if (command === 'fix') {
+  const targetUrl = args[1];
+  if (!targetUrl) {
+    console.error('\x1b[31mError: Target URL is required.\x1b[0m Example: seoskills fix https://example.com');
+    process.exit(1);
+  }
+  runPython('remediation_engine.py', [targetUrl]);
+} else if (command === 'report') {
+  const targetUrl = args[1];
+  if (!targetUrl) {
+    console.error('\x1b[31mError: Target URL is required.\x1b[0m Example: seoskills report https://example.com');
+    process.exit(1);
+  }
+  runPython('pdf_report.py', [targetUrl]);
+} else {
+  console.log(`Running seoskills ${command}...`);
+}

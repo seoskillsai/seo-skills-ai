@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="cyber-grad-lg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E5FF" />
+      <stop offset="50%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#6366F1" />
+    </linearGradient>
+    <filter id="neon-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <rect width="64" height="64" rx="14" fill="#0A0F1D"/>
+  <rect x="1" y="1" width="62" height="62" rx="13" stroke="#1E293B" stroke-width="1.5"/>
+  
+  <g transform="translate(8, 8)">
+    <polygon points="24,4 43,15 24,26 5,15" fill="url(#cyber-grad-lg)" fill-opacity="0.9" stroke="#00E5FF" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="5,15 24,26 24,44 5,33" fill="#0284C7" fill-opacity="0.8" stroke="#00E5FF" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="24,26 43,15 43,33 24,44" fill="#4F46E5" fill-opacity="0.85" stroke="#6366F1" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="24" cy="25" r="4" fill="#00E5FF" filter="url(#neon-glow)"/>
+    <circle cx="24" cy="25" r="2" fill="#FFFFFF"/>
+  </g>
+</svg>

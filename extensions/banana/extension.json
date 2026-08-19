@@ -1,0 +1,11 @@
+{
+  "name": "banana",
+  "displayName": "Banana AI Creative Director & Image Engine",
+  "version": "1.0.0",
+  "description": "Contextual AI image generation with IPTC TrainedAlgorithmicMedia metadata.",
+  "command": "python",
+  "args": ["scripts/dataforseo_api.py"],
+  "env": {
+    "BANANA_API_KEY": ""
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "firecrawl",
+  "displayName": "Firecrawl Full-Site Crawler",
+  "version": "1.0.0",
+  "description": "Full site crawler and deep URL discovery via Firecrawl API.",
+  "command": "npx",
+  "args": ["-y", "firecrawl-mcp"],
+  "env": {
+    "FIRECRAWL_API_KEY": ""
+  }
+}

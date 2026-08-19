@@ -1,0 +1,11 @@
+{
+  "name": "seranking",
+  "displayName": "SE Ranking AI Share-of-Voice",
+  "version": "1.0.0",
+  "description": "AI visibility and search engine market share analytics across AI Overviews and LLMs.",
+  "command": "python",
+  "args": ["scripts/dataforseo_api.py"],
+  "env": {
+    "SE_RANKING_API_KEY": ""
+  }
+}

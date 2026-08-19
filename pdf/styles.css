@@ -1,0 +1,80 @@
+@page {
+    size: A4;
+    margin: 20mm 15mm 20mm 15mm;
+    @bottom-right {
+        content: "Page " counter(page) " of " counter(pages);
+        font-size: 9pt;
+        color: #9CA3AF;
+    }
+    @bottom-left {
+        content: "SEO Skills AI — Enterprise Audit Deliverable";
+        font-size: 9pt;
+        color: #9CA3AF;
+    }
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #111827;
+    background: #FFFFFF;
+    line-height: 1.5;
+    font-size: 10.5pt;
+}
+
+.cover-page {
+    page-break-after: always;
+    padding-top: 60mm;
+    text-align: center;
+}
+
+.cover-title {
+    font-size: 28pt;
+    font-weight: 800;
+    color: #0A0D12;
+    margin-bottom: 8mm;
+    letter-spacing: -0.5px;
+}
+
+.cover-subtitle {
+    font-size: 14pt;
+    color: #4B5563;
+    margin-bottom: 20mm;
+}
+
+.score-badge {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #00E5FF;
+    color: #0A0D12;
+    font-size: 24pt;
+    font-weight: 900;
+    border-radius: 8px;
+}
+
+.section-title {
+    font-size: 16pt;
+    font-weight: 700;
+    color: #111827;
+    border-bottom: 2px solid #E5E7EB;
+    padding-bottom: 4px;
+    margin-top: 10mm;
+    margin-bottom: 6mm;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4mm 0;
+}
+
+th, td {
+    padding: 8px 12px;
+    border: 1px solid #E5E7EB;
+    text-align: left;
+    font-size: 10pt;
+}
+
+th {
+    background: #F9FAFB;
+    font-weight: 700;
+}

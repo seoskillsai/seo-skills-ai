@@ -1,0 +1,7 @@
+# Aider configuration for SEO Skills AI
+auto-commits: true
+show-diffs: true
+map-tokens: 2048
+read:
+  - AGENTS.md
+  - skills/seo/SKILL.md

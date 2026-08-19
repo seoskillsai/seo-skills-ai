@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "seoskillsai": {
+      "command": "python",
+      "args": ["-m", "scripts.mcp_server"],
+      "env": {
+        "PYTHONPATH": "."
+      },
+      "disabled": false,
+      "autoApprove": [
+        "seo_audit",
+        "seo_technical",
+        "seo_schema",
+        "seo_llms_txt",
+        "seo_discover",
+        "seo_drift"
+      ]
+    }
+  }
+}

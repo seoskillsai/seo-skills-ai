@@ -1,0 +1,37 @@
+[
+  {
+    "name": "May 2026 Core Update",
+    "date": "2026-05-18",
+    "type": "Core Algorithm Update",
+    "impact_areas": ["Information Gain", "AI Search Citability", "Topical Depth", "EAV Entity Grounding"],
+    "description": "Strengthened Google Information Gain patents (US 11,562,019 B2). Demoted commodity content lacking empirical testing, primary-source data, or original benchmarks."
+  },
+  {
+    "name": "FAQ Rich Result Retirement",
+    "date": "2026-05-07",
+    "type": "Structured Data Policy Update",
+    "impact_areas": ["Schema.org FAQPage"],
+    "description": "Discontinued FAQ rich snippets globally for commercial websites. Recommended migration to TechArticle and QAPage for genuine community forums."
+  },
+  {
+    "name": "Site Reputation Abuse Enforcement",
+    "date": "2024-11-19",
+    "type": "Algorithmic & Manual Spam Policy",
+    "impact_areas": ["Parasite SEO", "Subdomains", "Third-Party Hosted Directories"],
+    "description": "Enforced manual and algorithmic penalties on third-party commercial content hosted on trusted domains without direct first-party editorial involvement."
+  },
+  {
+    "name": "August 2024 Core Update",
+    "date": "2024-08-15",
+    "type": "Core Algorithm Update",
+    "impact_areas": ["Helpful Content Integration", "Small Publisher Recovery", "E-E-A-T"],
+    "description": "Refined helpful content signals into core ranking systems, rewarding independent creator content with authentic user experience signals."
+  },
+  {
+    "name": "Interaction to Next Paint (INP) Launch",
+    "date": "2024-03-12",
+    "type": "Core Web Vitals Metric Update",
+    "impact_areas": ["INP Responsiveness", "JavaScript Main Thread Execution"],
+    "description": "Officially replaced First Input Delay (FID) with INP as a primary Core Web Vital. Target set to under 200ms at 75th percentile."
+  }
+]

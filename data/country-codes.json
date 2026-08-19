@@ -1,0 +1,14 @@
+{
+  "US": {"name": "United States", "tld": ".us", "primary_lang": "en-US", "google_domain": "google.com"},
+  "GB": {"name": "United Kingdom", "tld": ".co.uk", "primary_lang": "en-GB", "google_domain": "google.co.uk"},
+  "CA": {"name": "Canada", "tld": ".ca", "primary_lang": "en-CA", "google_domain": "google.ca"},
+  "AU": {"name": "Australia", "tld": ".com.au", "primary_lang": "en-AU", "google_domain": "google.com.au"},
+  "DE": {"name": "Germany", "tld": ".de", "primary_lang": "de-DE", "google_domain": "google.de"},
+  "FR": {"name": "France", "tld": ".fr", "primary_lang": "fr-FR", "google_domain": "google.fr"},
+  "ES": {"name": "Spain", "tld": ".es", "primary_lang": "es-ES", "google_domain": "google.es"},
+  "IT": {"name": "Italy", "tld": ".it", "primary_lang": "it-IT", "google_domain": "google.it"},
+  "NL": {"name": "Netherlands", "tld": ".nl", "primary_lang": "nl-NL", "google_domain": "google.nl"},
+  "BR": {"name": "Brazil", "tld": ".com.br", "primary_lang": "pt-BR", "google_domain": "google.com.br"},
+  "JP": {"name": "Japan", "tld": ".co.jp", "primary_lang": "ja-JP", "google_domain": "google.co.jp"},
+  "IN": {"name": "India", "tld": ".in", "primary_lang": "en-IN", "google_domain": "google.co.in"}
+}

@@ -1,0 +1,11 @@
+{
+  "name": "profound",
+  "displayName": "Profound LLM Citation Engine",
+  "version": "1.0.0",
+  "description": "Generative engine optimization citation analytics and LLM retrieval metrics.",
+  "command": "python",
+  "args": ["scripts/dataforseo_api.py"],
+  "env": {
+    "PROFOUND_API_KEY": ""
+  }
+}

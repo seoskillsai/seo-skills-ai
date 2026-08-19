@@ -1,0 +1,37 @@
+{
+  "HowTo": {
+    "retired_date": "2023-09-13",
+    "status": "Rich results removed globally",
+    "migration": "Use TechArticle or Article with ordered listItem step elements."
+  },
+  "SpecialAnnouncement": {
+    "retired_date": "2025-07-31",
+    "status": "Deprecated",
+    "migration": "Use standard WebPage or Organization announcements."
+  },
+  "ClaimReview": {
+    "retired_date": "2025-06-30",
+    "status": "Retired for non-accredited fact-checkers",
+    "migration": "Ground claims directly in body prose with academic source citations."
+  },
+  "VehicleListing": {
+    "retired_date": "2025-06-30",
+    "status": "Retired",
+    "migration": "Use Product with autoVehicle properties."
+  },
+  "EstimatedSalary": {
+    "retired_date": "2025-06-30",
+    "status": "Retired",
+    "migration": "Use JobPosting baseSalary."
+  },
+  "LearningVideo": {
+    "retired_date": "2025-06-30",
+    "status": "Retired",
+    "migration": "Use VideoObject with hasPart clip markers."
+  },
+  "CourseInfo": {
+    "retired_date": "2025-06-30",
+    "status": "Carousel retired",
+    "migration": "Use Course schema."
+  }
+}

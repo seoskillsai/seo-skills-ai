@@ -1,0 +1,12 @@
+{
+  "name": "dataforseo",
+  "displayName": "DataForSEO Live SERP & Keyword Intelligence",
+  "version": "1.0.0",
+  "description": "Live SERP API, keyword volumes, AI Overviews presence, and backlink data across 9 modules.",
+  "command": "python",
+  "args": ["scripts/dataforseo_api.py"],
+  "env": {
+    "DATAFORSEO_LOGIN": "",
+    "DATAFORSEO_PASSWORD": ""
+  }
+}

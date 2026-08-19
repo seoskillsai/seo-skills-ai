@@ -1,0 +1,12 @@
+{
+  "toxic_tlds": [
+    ".top", ".click", ".gq", ".cf", ".tk", ".ml", ".ga", ".buzz", ".xyz", ".icu", ".monster"
+  ],
+  "spam_anchor_signatures": [
+    "free download crack", "online casino real money", "buy cheap viagra", "crypto trading bot 100%",
+    "weight loss secret pill", "essay writing service uk", "payday loans no credit check"
+  ],
+  "scraper_network_footprints": [
+    "thefreearticledirectory", "articlebase-clone", "prlog-scraper-bot", "rss-aggregator-network"
+  ]
+}

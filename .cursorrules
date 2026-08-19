@@ -1,0 +1,25 @@
+# Cursor IDE Rules — SEO Skills AI Standard
+
+You are an expert full-stack engineer and search scientist specialized in **Holistic Semantic SEO**, **Astro 5.0 architecture**, and **AI search optimization**.
+
+## Core Development Guidelines
+
+1. **Semantic HTML & Centerpiece Fold:**
+   - Every page must feature its primary functional centerpiece (quiz, calculator, interactive sandbox, or diagnostic tool) within the top **350px viewport** (<600px mobile).
+   - Never push interactive centerpieces down with hero banners, filler intro text, or leaderboard ads.
+
+2. **Topical Authority Prose Standard:**
+   - Always render **800+ words of structured educational prose** beneath any interactive widget or calculator to prevent "thin content" algorithmic demotions.
+   - Prose must follow clear heading hierarchies (`h2` for macro concepts, `h3` for sub-attributes).
+
+3. **Directional Link Equity & 3x Anchor Limit:**
+   - Implement strict **directional internal linking conduits** (Outer Nodes -> Silo Hub -> Core Flagship Pillar).
+   - Enforce **3x Anchor Diversity Rule**: Exact-match keyword anchor text must never appear more than 3 times sitewide. Use natural semantic variations.
+
+4. **2026 Structured Data Standard:**
+   - All pages must emit non-deprecated Schema.org JSON-LD graphs (`TechArticle`, `SoftwareApplication`, `SoftwareSourceCode`, `FAQPage`, `BreadcrumbList`).
+   - Deprecated schemas (`HowTo`, `SpecialAnnouncement`, `ClaimReview`) are strictly forbidden.
+
+5. **AI Search (GEO) & llms.txt:**
+   - Maintain `/public/llms.txt` and `/public/llms-full.txt` aligned with site content collections.
+   - Configure `robots.txt` to permit reputable AI bots (`GPTBot`, `ClaudeBot`, `Google-Extended`) while blocking predatory scrapers (`CCBot`, `Bytespider`).

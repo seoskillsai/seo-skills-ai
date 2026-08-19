@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SEOSkillsAIDriftSnapshot",
+  "type": "object",
+  "properties": {
+    "snapshot_id": { "type": "integer" },
+    "url": { "type": "string", "format": "uri" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "title": { "type": "string" },
+    "meta_description": { "type": "string" },
+    "meta_robots": { "type": "string" },
+    "canonical": { "type": "string" },
+    "h1": { "type": "string" },
+    "word_count": { "type": "integer" },
+    "schemas_count": { "type": "integer" }
+  },
+  "required": ["snapshot_id", "url", "timestamp", "title", "word_count"]
+}

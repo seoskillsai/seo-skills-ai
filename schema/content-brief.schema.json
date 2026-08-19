@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SEOSkillsAIContentBrief",
+  "type": "object",
+  "properties": {
+    "topic": { "type": "string" },
+    "primary_intent": { "type": "string", "enum": ["INFORMATIONAL", "COMMERCIAL", "TRANSACTIONAL", "NAVIGATIONAL"] },
+    "central_entity": { "type": "string" },
+    "target_word_count": { "type": "integer", "minimum": 800 },
+    "eav_attributes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "heading_structure": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "level": { "type": "string", "enum": ["H1", "H2", "H3"] },
+          "heading": { "type": "string" },
+          "is_citable_question": { "type": "boolean" }
+        },
+        "required": ["level", "heading"]
+      }
+    },
+    "required_schemas": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["topic", "central_entity", "target_word_count", "heading_structure", "required_schemas"]
+}

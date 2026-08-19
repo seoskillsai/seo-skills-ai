@@ -1,0 +1,11 @@
+{
+  "en": {"name": "English", "subtags": ["en-US", "en-GB", "en-CA", "en-AU"]},
+  "es": {"name": "Spanish", "subtags": ["es-ES", "es-MX", "es-AR"]},
+  "fr": {"name": "French", "subtags": ["fr-FR", "fr-CA", "fr-BE"]},
+  "de": {"name": "German", "subtags": ["de-DE", "de-AT", "de-CH"]},
+  "it": {"name": "Italian", "subtags": ["it-IT"]},
+  "pt": {"name": "Portuguese", "subtags": ["pt-BR", "pt-PT"]},
+  "ja": {"name": "Japanese", "subtags": ["ja-JP"]},
+  "zh": {"name": "Chinese", "subtags": ["zh-CN", "zh-TW", "zh-HK"]},
+  "nl": {"name": "Dutch", "subtags": ["nl-NL", "nl-BE"]}
+}

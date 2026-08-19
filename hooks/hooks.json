@@ -1,0 +1,12 @@
+{
+  "description": "Quality gate hooks for schema validation and URL safety",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "tool": "write_file",
+        "condition": "file.endsWith('.json') || file.endsWith('.astro') || file.endsWith('.html')",
+        "command": "python scripts/schema_validator.py {file}"
+      }
+    ]
+  }
+}

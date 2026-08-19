@@ -1,0 +1,49 @@
+{
+  "name": "seoskillsai",
+  "version": "1.1.0",
+  "description": "SEO Skills: Universal AI SEO Agent and Technical Optimization Suite across Claude Code, Antigravity, Cursor, Windsurf, Copilot, ChatGPT, and Cline.",
+  "main": "bin/seoskills",
+  "bin": {
+    "seoskills": "./bin/seoskills",
+    "seo": "./bin/seoskills"
+  },
+  "scripts": {
+    "test": "python tests/run_all_tests.py",
+    "doctor": "python scripts/doctor.py",
+    "portability": "python scripts/portability_check.py",
+    "setup": "python scripts/setup_runtime.py",
+    "audit": "python scripts/full_audit.py"
+  },
+  "keywords": [
+    "seo skills",
+    "seo skill",
+    "ai seo agent",
+    "claude seo tool",
+    "claude seo",
+    "cursor seo",
+    "windsurf seo",
+    "copilot seo tool",
+    "github seo",
+    "code seo",
+    "onpage seo audit",
+    "technical seo",
+    "topical semantic seo",
+    "eav seo",
+    "information gain patent",
+    "schema generator 2026",
+    "llms.txt generator",
+    "google discover rss",
+    "site audit report template",
+    "moz backlink checker",
+    "ahrefs keyword gap",
+    "bing webmaster indexnow",
+    "core web vitals inp"
+  ],
+  "author": "SEO Skills AI Open Source Community",
+  "license": "MIT",
+  "homepage": "https://seoskillsai.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seoskillsai/seo-skills.git"
+  }
+}

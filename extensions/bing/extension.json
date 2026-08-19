@@ -1,0 +1,11 @@
+{
+  "name": "bing",
+  "displayName": "Bing Webmaster & IndexNow API",
+  "version": "1.0.0",
+  "description": "Unified Bing Webmaster crawl stats and instant IndexNow publishing engine.",
+  "command": "python",
+  "args": ["scripts/bing_webmaster.py"],
+  "env": {
+    "BING_API_KEY": ""
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SEO Skills AI Actions API",
+    "description": "Custom GPT Actions schema for universal AI SEO audits, schema validation, and drift analysis.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.seoskillsai.com/v1"
+    }
+  ],
+  "paths": {
+    "/audit": {
+      "post": {
+        "summary": "Run full-site or single-page AI SEO audit",
+        "operationId": "runSeoAudit",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "Target website URL to audit"
+                  },
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Specific SEO audit disciplines to evaluate"
+                  }
+                },
+                "required": ["url"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Comprehensive prioritized audit report with health score",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "healthScore": { "type": "number" },
+                    "criticalIssues": { "type": "array", "items": { "type": "string" } },
+                    "actionPlan": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

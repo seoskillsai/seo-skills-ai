@@ -1,0 +1,19 @@
+{
+  "name": "@seoskillsai/cli",
+  "version": "1.1.0",
+  "description": "One-click 12-agent installer for SEO Skills: Universal AI SEO Agent & Technical Optimization Suite.",
+  "bin": {
+    "seoskills": "./index.js"
+  },
+  "keywords": [
+    "seo skills",
+    "ai seo agent",
+    "claude seo tool",
+    "cursor seo",
+    "windsurf seo",
+    "copilot seo",
+    "github seo"
+  ],
+  "author": "SEO Skills AI",
+  "license": "MIT"
+}

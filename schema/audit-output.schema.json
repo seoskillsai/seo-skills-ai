@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SEOSkillsAIAuditOutput",
+  "type": "object",
+  "properties": {
+    "url": { "type": "string", "format": "uri" },
+    "final_url": { "type": "string", "format": "uri" },
+    "status": { "type": "string", "enum": ["SUCCESS", "FAILED"] },
+    "health_score": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "discipline_scores": {
+      "type": "object",
+      "properties": {
+        "technical": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "content_eeat": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "schema_markup": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "geo_ai_search": { "type": "integer", "minimum": 0, "maximum": 100 }
+      },
+      "required": ["technical", "content_eeat", "schema_markup", "geo_ai_search"]
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "status_code": { "type": "integer" },
+        "latency_ms": { "type": "number" },
+        "word_count": { "type": "integer" },
+        "h1_count": { "type": "integer" },
+        "h2_count": { "type": "integer" },
+        "images_count": { "type": "integer" },
+        "schemas_detected": { "type": "integer" }
+      },
+      "required": ["status_code", "word_count", "schemas_detected"]
+    },
+    "critical_issues": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "action_plan": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["url", "status", "health_score", "discipline_scores", "metrics", "critical_issues", "action_plan"]
+}

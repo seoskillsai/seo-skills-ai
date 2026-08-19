@@ -1,0 +1,11 @@
+{
+  "name": "ahrefs",
+  "displayName": "Ahrefs Live Link Index",
+  "version": "1.0.0",
+  "description": "Live backlink graphs, domain ratings, and organic traffic metrics via @ahrefs/mcp.",
+  "command": "npx",
+  "args": ["-y", "@ahrefs/mcp"],
+  "env": {
+    "AHREFS_API_KEY": ""
+  }
+}

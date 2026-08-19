@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you utilize SEO Skills AI in academic research or software benchmarking, please cite as follows:"
+authors:
+  - name: "SEO Skills AI Open Source Community"
+    website: "https://seoskillsai.com"
+title: "SEO Skills AI: Universal Multi-Platform Agent Skills Architecture for Search Engine Optimization"
+version: 1.1.0
+date-released: 2026-08-19
+url: "https://github.com/seoskillsai/seo-skills"
+license: MIT
