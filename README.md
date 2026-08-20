@@ -57,10 +57,14 @@ Clone the repository and open it as the agent workspace.
 ```bash
 git clone https://github.com/seoskillsai/seo-skills-ai.git
 cd seo-skills-ai
-node packages/cli/index.mjs add cursor
+npx @seoskillsai/cli add cursor
 ```
 
-`@seoskillsai/cli` is packaged for npm (`package.json` `files` includes `skills/`, `scripts/`, and `AGENTS.md`) but is **not on the registry yet** — there is no npm token in the local credential files. Do not run `npx @seoskillsai/cli` until a public `1.2.0` tarball exists.
+Or without cloning first:
+
+```bash
+npx @seoskillsai/cli add cursor
+```
 
 Unix / macOS:
 

@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [1.2.1] - 2026-08-20
+
+### Fixed
+- Publish `@seoskillsai/cli` without `__pycache__` bytecode and with npm-canonical `bin` paths so `npx @seoskillsai/cli add cursor` works.
+
+---
+
 ## [1.2.0] - 2026-08-20
 
 ### Security
@@ -17,7 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 - Real Google Search Console Search Analytics and GA4 Data API organic sessions via `~/.config/seoskillsai/gsc_ga4.json` (`scripts/google_installed_app.py`).
 - First-party HTTP for DataForSEO, Firecrawl scrape, and Bing Webmaster metrics.
-- Packaged `@seoskillsai/cli` that copies skills/scripts from the npm tarball.
+- Published `@seoskillsai/cli` that copies skills/scripts from the npm tarball.
 - Live `https://example.com` audit smoke in CI.
 - `CODE_OF_CONDUCT.md` and GitHub issue templates.
 

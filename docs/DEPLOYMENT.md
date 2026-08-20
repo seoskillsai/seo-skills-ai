@@ -1,6 +1,6 @@
 # Deployment map — SEO Skills AI
 
-Public, no-secret inventory of where this project lives and what v1.2.0 shipped.
+Public, no-secret inventory of where this project lives and what v1.2.1 shipped.
 
 ## Canonical locations
 
@@ -10,7 +10,7 @@ Public, no-secret inventory of where this project lives and what v1.2.0 shipped.
 | Website | https://seoskillsai.com |
 | npm CLI | `@seoskillsai/cli` |
 | Default branch | `main` |
-| Current release line | **1.2.0** |
+| Current release line | **1.2.1** |
 | Local Cursor / git workspace | `C:\Users\sutar\Documents\Cursor\Websites\seoskillsai.comREPO` |
 | Claude plugin manifest | `.claude-plugin/plugin.json` |
 | Codex plugin manifest | `.codex-plugin/plugin.json` |

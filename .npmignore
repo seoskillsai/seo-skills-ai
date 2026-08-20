@@ -1,0 +1,13 @@
+scripts/__pycache__/
+**/__pycache__/
+*.py[cod]
+*.pyo
+config/credentials.json
+config/deployment-local.json
+config/bing_accounts.json
+.env
+venv/
+.venv/
+node_modules/
+*.db
+*.sqlite

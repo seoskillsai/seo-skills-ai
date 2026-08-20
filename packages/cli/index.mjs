@@ -9,7 +9,7 @@ const action = args[0];
 const target = args[1];
 const here = path.dirname(fileURLToPath(import.meta.url));
 const pkgRoot = path.resolve(here, '..', '..');
-const VERSION = '1.2.0';
+const VERSION = '1.2.1';
 
 function exists(p) {
   try {

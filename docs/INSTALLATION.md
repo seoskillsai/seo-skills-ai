@@ -1,19 +1,23 @@
 # Installation & Setup Guide: SEO Skills AI
 
-## Option A — git clone (works today)
+## Option A — npm
+
+```bash
+npx @seoskillsai/cli add cursor
+```
+
+This copies `skills/`, `scripts/`, `AGENTS.md`, and harness manifests from the published tarball into the current directory.
+
+## Option B — git clone
 
 ```bash
 git clone https://github.com/seoskillsai/seo-skills-ai.git
 cd seo-skills-ai
-node packages/cli/index.mjs add cursor
+npx @seoskillsai/cli add cursor
 ```
 
 Unix / macOS: `bash install.sh`  
 Windows: `powershell -ExecutionPolicy Bypass -File .\install.ps1`
-
-## Option B — npm (`@seoskillsai/cli`)
-
-The package metadata and `files` list are ready so `npx @seoskillsai/cli add cursor` copies skills from the tarball. **It is not published** until an npm automation token is stored in gitignored `~/.config/seoskillsai/` (or `npm login`). Do not advertise `npx` until `npm view @seoskillsai/cli version` succeeds.
 
 `install.sh` / `install.ps1` create `~/.config/seoskillsai/venv` and install optional Playwright Chromium. `/seo setup` only initializes the local SQLite drift database. `/seo doctor` checks Python, SQLite, skills, and reports Playwright as optional.
 

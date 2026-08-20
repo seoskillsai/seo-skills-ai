@@ -1,12 +1,12 @@
 {
   "name": "@seoskillsai/cli",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "SEO Skills: Universal AI SEO Agent and Technical Optimization Suite across Claude Code, Antigravity, Cursor, Windsurf, Copilot, ChatGPT, and Cline.",
   "type": "module",
   "main": "packages/cli/index.mjs",
   "bin": {
-    "seoskills": "./packages/cli/index.mjs",
-    "seo": "./packages/cli/index.mjs"
+    "seoskills": "packages/cli/index.mjs",
+    "seo": "packages/cli/index.mjs"
   },
   "files": [
     "packages/cli/index.mjs",
@@ -43,7 +43,7 @@
   "homepage": "https://seoskillsai.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/seoskillsai/seo-skills-ai.git"
+    "url": "git+https://github.com/seoskillsai/seo-skills-ai.git"
   },
   "publishConfig": {
     "access": "public"
