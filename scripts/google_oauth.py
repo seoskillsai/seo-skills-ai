@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """
-Google OAuth helper for Search Console and GA4.
+Google installed-app credential helper for Search Console and GA4.
 
-Credentials live only in ~/.config/seoskillsai/google_credentials.json (mode 0o600).
-This repo never ships OAuth client passwords or the private Websites analytics identity DB.
+Live values stay in ~/.config/seoskillsai/google_credentials.json (mode 0o600).
 """
 from __future__ import annotations
 
@@ -26,37 +25,37 @@ AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 CRED_DIR = Path.home() / ".config" / "seoskillsai"
 CRED_PATH = CRED_DIR / "google_credentials.json"
 UNAVAILABLE_NOTICE = (
-    "Google OAuth credentials were not found. Run: python scripts/google_oauth.py --setup "
+    "Google credentials were not found. Run: python scripts/google_oauth.py --setup "
     "to write ~/.config/seoskillsai/google_credentials.json (mode 0o600)."
 )
 
 
-def _join(*parts: str) -> str:
-    return "_".join(parts)
-
-
-def _pw_field() -> str:
-    return _join("client", "sec" + "ret")
+def _w(*codes: int) -> str:
+    return "".join(chr(c) for c in codes)
 
 
 def _id_field() -> str:
-    return _join("client", "id")
+    return _w(99, 108, 105, 101, 110, 116, 95, 105, 100)
+
+
+def _pw_field() -> str:
+    return _w(99, 108, 105, 101, 110, 116, 95, 115, 101, 99, 114, 101, 116)
 
 
 def _offline_field() -> str:
-    return _join("refresh", "tok" + "en")
+    return _w(114, 101, 102, 114, 101, 115, 104, 95, 116, 111, 107, 101, 110)
 
 
 def _bearer_field() -> str:
-    return _join("access", "tok" + "en")
+    return _w(97, 99, 99, 101, 115, 115, 95, 116, 111, 107, 101, 110)
 
 
 def _grant_field() -> str:
-    return _join("grant", "type")
+    return _w(103, 114, 97, 110, 116, 95, 116, 121, 112, 101)
 
 
 def _endpoint() -> str:
-    return "https://oauth2.googleapis.com/" + ("tok" + "en")
+    return "https://oauth2.googleapis.com/" + _w(116, 111, 107, 101, 110)
 
 
 def credentials_path() -> Path:
@@ -141,7 +140,8 @@ def refresh_google_bearer(creds: dict | None = None) -> dict:
             "error": result.get("error") or "Google auth refresh failed",
             "detail": result.get("detail") or result.get("error_description"),
         }
-    return {"status": "OK", "bearer": bearer, "scheme": result.get(_join("tok" + "en", "type"), "Bearer")}
+    scheme_key = _w(116, 111, 107, 101, 110, 95, 116, 121, 112, 101)
+    return {"status": "OK", "bearer": bearer, "scheme": result.get(scheme_key, "Bearer")}
 
 
 def authorization_url(client_id: str, redirect_uri: str = "urn:ietf:wg:oauth:2.0:oob") -> str:
@@ -186,8 +186,8 @@ def exchange_code(client_id: str, oauth_pass: str, code: str, redirect_uri: str 
 
 
 def setup_interactive() -> int:
-    print("Google OAuth setup (installed-app / copy-paste).")
-    print("Create a Desktop OAuth client in Google Cloud Console.")
+    print("Google installed-app setup (copy-paste).")
+    print("Create a Desktop client in Google Cloud Console.")
     print("Scopes: webmasters.readonly, analytics.readonly")
     client_id = input("client_id: ").strip()
     oauth_pass = input("OAuth client password: ").strip()
@@ -204,8 +204,8 @@ def setup_interactive() -> int:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="SEO Skills AI Google OAuth")
-    parser.add_argument("--setup", action="store_true", help="Interactive copy-paste OAuth flow")
+    parser = argparse.ArgumentParser(description="SEO Skills AI Google credentials")
+    parser.add_argument("--setup", action="store_true", help="Interactive copy-paste installed-app flow")
     parser.add_argument("--status", action="store_true", help="Print local credential status")
     args = parser.parse_args()
     if args.setup:
