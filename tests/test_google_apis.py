@@ -22,11 +22,11 @@ def test_gsc_blocks_private_property():
 def test_gsc_mocked_searchanalytics(monkeypatch):
     monkeypatch.setattr(
         "scripts.gsc_query.load_google_credentials",
-        lambda: {"client_id": "id", "client_secret": "secret", "refresh_token": "rt"},
+        lambda: {"client_id": "id", "client_secret": "mock-client", "refresh_token": "mock-refresh"},
     )
     monkeypatch.setattr(
         "scripts.gsc_query.refresh_access_token",
-        lambda creds=None: {"status": "OK", "access_token": "ya29.test"},
+        lambda creds=None: {"status": "OK", "access_token": "mock-google-access-token"},
     )
     monkeypatch.setattr(
         "scripts.gsc_query.json_request",
@@ -55,14 +55,14 @@ def test_ga4_mocked_report(monkeypatch):
         "scripts.ga4_report.load_google_credentials",
         lambda: {
             "client_id": "id",
-            "client_secret": "secret",
-            "refresh_token": "rt",
+            "client_secret": "mock-client",
+            "refresh_token": "mock-refresh",
             "ga4_property_id": "123456",
         },
     )
     monkeypatch.setattr(
         "scripts.ga4_report.refresh_access_token",
-        lambda creds=None: {"status": "OK", "access_token": "ya29.test"},
+        lambda creds=None: {"status": "OK", "access_token": "mock-google-access-token"},
     )
     monkeypatch.setattr(
         "scripts.ga4_report.json_request",

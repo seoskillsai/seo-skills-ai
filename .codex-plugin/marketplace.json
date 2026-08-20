@@ -1,0 +1,20 @@
+{
+  "name": "seo-skills-ai",
+  "interface": {
+    "displayName": "SEO Skills AI"
+  },
+  "plugins": [
+    {
+      "name": "seo-skills-ai",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -53,7 +53,7 @@ def test_firecrawl_unavailable_without_key(monkeypatch):
 
 
 def test_firecrawl_mocked(monkeypatch):
-    monkeypatch.setenv("FIRECRAWL_API_KEY", "fc-test")
+    monkeypatch.setenv("FIRECRAWL_API_KEY", "mock-firecrawl-key")
     monkeypatch.setattr(
         "scripts.firecrawl_api.json_request",
         lambda *a, **k: {"data": {"markdown": "# Hi", "metadata": {"title": "Example Domain"}}},
@@ -72,7 +72,7 @@ def test_bing_unavailable_without_key(monkeypatch):
 
 
 def test_bing_mocked(monkeypatch):
-    monkeypatch.setenv("BING_WEBMASTER_API_KEY", "bing-test")
+    monkeypatch.setenv("BING_WEBMASTER_API_KEY", "mock-bing-key")
     monkeypatch.setattr(
         "scripts.bing_webmaster.json_request",
         lambda url, **k: {"d": [{"Query": "example", "Impressions": 10}]} if "GetQueryStats" in url else {"d": []},
