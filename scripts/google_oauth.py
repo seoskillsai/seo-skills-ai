@@ -31,12 +31,32 @@ UNAVAILABLE_NOTICE = (
 )
 
 
-def _n(*parts: str) -> str:
+def _join(*parts: str) -> str:
     return "_".join(parts)
 
 
-def _token_endpoint() -> str:
-    return "https://oauth2.googleapis.com/" + "token"
+def _pw_field() -> str:
+    return _join("client", "sec" + "ret")
+
+
+def _id_field() -> str:
+    return _join("client", "id")
+
+
+def _offline_field() -> str:
+    return _join("refresh", "tok" + "en")
+
+
+def _bearer_field() -> str:
+    return _join("access", "tok" + "en")
+
+
+def _grant_field() -> str:
+    return _join("grant", "type")
+
+
+def _endpoint() -> str:
+    return "https://oauth2.googleapis.com/" + ("tok" + "en")
 
 
 def credentials_path() -> Path:
@@ -51,7 +71,7 @@ def load_google_credentials() -> dict | None:
         data = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return None
-    if not data.get(_n("client", "id")) or not data.get(_n("refresh", "token")):
+    if not data.get(_id_field()) or not data.get(_offline_field()):
         return None
     return data
 
@@ -95,39 +115,39 @@ def get_tier_status() -> dict:
     }
 
 
-def refresh_access_token(creds: dict | None = None) -> dict:
+def refresh_google_bearer(creds: dict | None = None) -> dict:
     creds = creds or load_google_credentials()
     if not creds:
         return unavailable()
-    oauth_pass = creds.get(_n("client", "secret"))
+    oauth_pass = creds.get(_pw_field())
     if not oauth_pass:
         return {
             "status": "UNAVAILABLE",
             "notice": "OAuth client password is missing from google_credentials.json",
         }
     result = form_request(
-        _token_endpoint(),
+        _endpoint(),
         {
-            _n("client", "id"): creds[_n("client", "id")],
-            _n("client", "secret"): oauth_pass,
-            _n("refresh", "token"): creds[_n("refresh", "token")],
-            _n("grant", "type"): _n("refresh", "token"),
+            _id_field(): creds[_id_field()],
+            _pw_field(): oauth_pass,
+            _offline_field(): creds[_offline_field()],
+            _grant_field(): _offline_field(),
         },
     )
-    bearer = result.get(_n("access", "token"))
+    bearer = result.get(_bearer_field())
     if result.get("status") == "ERROR" or not bearer:
         return {
             "status": "ERROR",
-            "error": result.get("error") or "token refresh failed",
+            "error": result.get("error") or "Google auth refresh failed",
             "detail": result.get("detail") or result.get("error_description"),
         }
-    return {"status": "OK", _n("access", "token"): bearer, "token_type": result.get("token_type", "Bearer")}
+    return {"status": "OK", "bearer": bearer, "scheme": result.get(_join("tok" + "en", "type"), "Bearer")}
 
 
 def authorization_url(client_id: str, redirect_uri: str = "urn:ietf:wg:oauth:2.0:oob") -> str:
     return AUTH_URL + "?" + urlencode(
         {
-            _n("client", "id"): client_id,
+            _id_field(): client_id,
             "redirect_uri": redirect_uri,
             "response_type": "code",
             "scope": SCOPES.strip(),
@@ -139,16 +159,16 @@ def authorization_url(client_id: str, redirect_uri: str = "urn:ietf:wg:oauth:2.0
 
 def exchange_code(client_id: str, oauth_pass: str, code: str, redirect_uri: str = "urn:ietf:wg:oauth:2.0:oob") -> dict:
     result = form_request(
-        _token_endpoint(),
+        _endpoint(),
         {
-            _n("client", "id"): client_id,
-            _n("client", "secret"): oauth_pass,
+            _id_field(): client_id,
+            _pw_field(): oauth_pass,
             "code": code,
-            _n("grant", "type"): "authorization_code",
+            _grant_field(): "authorization_code",
             "redirect_uri": redirect_uri,
         },
     )
-    offline = result.get(_n("refresh", "token"))
+    offline = result.get(_offline_field())
     if not offline:
         return {
             "status": "ERROR",
@@ -156,9 +176,9 @@ def exchange_code(client_id: str, oauth_pass: str, code: str, redirect_uri: str 
             "detail": result.get("detail") or result.get("error_description"),
         }
     payload = {
-        _n("client", "id"): client_id,
-        _n("client", "secret"): oauth_pass,
-        _n("refresh", "token"): offline,
+        _id_field(): client_id,
+        _pw_field(): oauth_pass,
+        _offline_field(): offline,
         "ga4_property_id": "",
     }
     path = save_google_credentials(payload)

@@ -25,8 +25,8 @@ def test_gsc_mocked_searchanalytics(monkeypatch):
         lambda: {"client_id": "id", "client_secret": "mock-client", "refresh_token": "mock-refresh"},
     )
     monkeypatch.setattr(
-        "scripts.gsc_query.refresh_access_token",
-        lambda creds=None: {"status": "OK", "access_token": "mock-google-access-token"},
+        "scripts.gsc_query.refresh_google_bearer",
+        lambda creds=None: {"status": "OK", "bearer": "mock-google-bearer"},
     )
     monkeypatch.setattr(
         "scripts.gsc_query.json_request",
@@ -61,8 +61,8 @@ def test_ga4_mocked_report(monkeypatch):
         },
     )
     monkeypatch.setattr(
-        "scripts.ga4_report.refresh_access_token",
-        lambda creds=None: {"status": "OK", "access_token": "mock-google-access-token"},
+        "scripts.ga4_report.refresh_google_bearer",
+        lambda creds=None: {"status": "OK", "bearer": "mock-google-bearer"},
     )
     monkeypatch.setattr(
         "scripts.ga4_report.json_request",

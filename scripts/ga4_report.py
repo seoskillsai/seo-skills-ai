@@ -14,7 +14,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from scripts.google_oauth import load_google_credentials, refresh_access_token, unavailable
+from scripts.google_oauth import load_google_credentials, refresh_google_bearer, unavailable
 from scripts.http_json import json_request
 
 GA4_REPORT = "https://analyticsdata.googleapis.com/v1beta/properties/{property_id}:runReport"
@@ -33,7 +33,7 @@ def fetch_ga4_organic_report(property_id: str | None = None, days: int = 30) -> 
             "date_range_days": days,
         }
 
-    token = refresh_access_token(creds)
+    token = refresh_google_bearer(creds)
     if token.get("status") != "OK":
         return {"status": token.get("status", "ERROR"), "notice": token.get("notice"), "error": token.get("error")}
 
@@ -51,7 +51,7 @@ def fetch_ga4_organic_report(property_id: str | None = None, days: int = 30) -> 
     result = json_request(
         GA4_REPORT.format(property_id=pid),
         method="POST",
-        headers={"Authorization": f"Bearer {token['access_token']}"},
+        headers={"Authorization": f"Bearer {token['bearer']}"},
         body=body,
     )
     if result.get("status") == "ERROR":

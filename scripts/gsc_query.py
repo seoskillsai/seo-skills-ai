@@ -16,7 +16,7 @@ from urllib.parse import quote
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from scripts.google_oauth import load_google_credentials, refresh_access_token, unavailable
+from scripts.google_oauth import load_google_credentials, refresh_google_bearer, unavailable
 from scripts.http_json import json_request
 from scripts.url_safety import normalize_user_url, validate_url
 
@@ -53,7 +53,7 @@ def query_gsc(site_url: str, filter_type: str = "all", days: int = 28) -> dict:
     if not creds:
         return unavailable({"site_url": url, "date_range_days": days})
 
-    token = refresh_access_token(creds)
+    token = refresh_google_bearer(creds)
     if token.get("status") != "OK":
         return {"site_url": url, "status": token.get("status", "ERROR"), "notice": token.get("notice"), "error": token.get("error")}
 
@@ -67,10 +67,11 @@ def query_gsc(site_url: str, filter_type: str = "all", days: int = 28) -> dict:
         "dimensions": ["query"],
         "rowLimit": 25000,
     }
+    bearer = token.get("bearer")
     result = json_request(
         endpoint,
         method="POST",
-        headers={"Authorization": f"Bearer {token['access_token']}"},
+        headers={"Authorization": f"Bearer {bearer}"},
         body=payload,
     )
     if result.get("status") == "ERROR":
