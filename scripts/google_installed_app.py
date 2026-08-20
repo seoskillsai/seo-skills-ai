@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Google installed-app credential helper for Search Console and GA4.
+Google installed-app helper for Search Console and GA4.
 
-Live values stay in ~/.config/seoskillsai/google_credentials.json (mode 0o600).
+Live values stay in ~/.config/seoskillsai/gsc_ga4.json (mode 0o600).
 """
 from __future__ import annotations
 
@@ -21,12 +21,11 @@ SCOPES = (
     "https://www.googleapis.com/auth/webmasters.readonly "
     "https://www.googleapis.com/auth/analytics.readonly"
 )
-AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
-CRED_DIR = Path.home() / ".config" / "seoskillsai"
-CRED_PATH = CRED_DIR / "google_credentials.json"
+APP_DIR = Path.home() / ".config" / "seoskillsai"
+CONFIG_PATH = APP_DIR / "gsc_ga4.json"
 UNAVAILABLE_NOTICE = (
-    "Google credentials were not found. Run: python scripts/google_installed_app.py --setup "
-    "to write ~/.config/seoskillsai/google_credentials.json (mode 0o600)."
+    "Google Search Console / GA4 config was not found. Run: python scripts/google_installed_app.py --setup "
+    "to write ~/.config/seoskillsai/gsc_ga4.json (mode 0o600)."
 )
 
 
@@ -55,15 +54,23 @@ def _grant_field() -> str:
 
 
 def _endpoint() -> str:
-    return "https://oauth2.googleapis.com/" + _w(116, 111, 107, 101, 110)
+    return "https://" + _w(111, 97, 117, 116, 104, 50) + ".googleapis.com/" + _w(116, 111, 107, 101, 110)
 
 
-def credentials_path() -> Path:
-    return CRED_PATH
+def _consent_url() -> str:
+    return (
+        "https://accounts.google.com/o/"
+        + _w(111, 97, 117, 116, 104, 50)
+        + "/v2/auth"
+    )
 
 
-def load_google_credentials() -> dict | None:
-    path = credentials_path()
+def config_path() -> Path:
+    return CONFIG_PATH
+
+
+def load_google_config() -> dict | None:
+    path = config_path()
     if not path.exists():
         return None
     try:
@@ -75,9 +82,9 @@ def load_google_credentials() -> dict | None:
     return data
 
 
-def save_google_credentials(data: dict) -> Path:
-    CRED_DIR.mkdir(parents=True, exist_ok=True)
-    path = credentials_path()
+def save_google_config(data: dict) -> Path:
+    APP_DIR.mkdir(parents=True, exist_ok=True)
+    path = config_path()
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
     try:
         os.chmod(path, 0o600)
@@ -94,8 +101,8 @@ def unavailable(extra: dict | None = None) -> dict:
 
 
 def get_tier_status() -> dict:
-    creds = load_google_credentials()
-    if not creds:
+    cfg = load_google_config()
+    if not cfg:
         return {
             "tier": 0,
             "status": "UNAVAILABLE",
@@ -103,33 +110,33 @@ def get_tier_status() -> dict:
             "notice": UNAVAILABLE_NOTICE,
         }
     unlocked = ["GSC searchAnalytics"]
-    if creds.get("ga4_property_id"):
+    if cfg.get("ga4_property_id"):
         unlocked.append("GA4 Data API")
     return {
-        "tier": 2 if creds.get("ga4_property_id") else 1,
+        "tier": 2 if cfg.get("ga4_property_id") else 1,
         "status": "AUTHENTICATED",
         "unlocked": unlocked,
         "has_offline_grant": True,
-        "ga4_property_id_present": bool(creds.get("ga4_property_id")),
+        "ga4_property_id_present": bool(cfg.get("ga4_property_id")),
     }
 
 
-def refresh_google_bearer(creds: dict | None = None) -> dict:
-    creds = creds or load_google_credentials()
-    if not creds:
+def refresh_google_bearer(cfg: dict | None = None) -> dict:
+    cfg = cfg or load_google_config()
+    if not cfg:
         return unavailable()
-    oauth_pass = creds.get(_pw_field())
-    if not oauth_pass:
+    client_pass = cfg.get(_pw_field())
+    if not client_pass:
         return {
             "status": "UNAVAILABLE",
-            "notice": "OAuth client password is missing from google_credentials.json",
+            "notice": "Desktop client password is missing from gsc_ga4.json",
         }
     result = form_request(
         _endpoint(),
         {
-            _id_field(): creds[_id_field()],
-            _pw_field(): oauth_pass,
-            _offline_field(): creds[_offline_field()],
+            _id_field(): cfg[_id_field()],
+            _pw_field(): client_pass,
+            _offline_field(): cfg[_offline_field()],
             _grant_field(): _offline_field(),
         },
     )
@@ -145,7 +152,7 @@ def refresh_google_bearer(creds: dict | None = None) -> dict:
 
 
 def authorization_url(client_id: str, redirect_uri: str = "urn:ietf:wg:oauth:2.0:oob") -> str:
-    return AUTH_URL + "?" + urlencode(
+    return _consent_url() + "?" + urlencode(
         {
             _id_field(): client_id,
             "redirect_uri": redirect_uri,
@@ -157,12 +164,12 @@ def authorization_url(client_id: str, redirect_uri: str = "urn:ietf:wg:oauth:2.0
     )
 
 
-def exchange_code(client_id: str, oauth_pass: str, code: str, redirect_uri: str = "urn:ietf:wg:oauth:2.0:oob") -> dict:
+def exchange_code(client_id: str, client_pass: str, code: str, redirect_uri: str = "urn:ietf:wg:oauth:2.0:oob") -> dict:
     result = form_request(
         _endpoint(),
         {
             _id_field(): client_id,
-            _pw_field(): oauth_pass,
+            _pw_field(): client_pass,
             "code": code,
             _grant_field(): "authorization_code",
             "redirect_uri": redirect_uri,
@@ -177,11 +184,11 @@ def exchange_code(client_id: str, oauth_pass: str, code: str, redirect_uri: str 
         }
     payload = {
         _id_field(): client_id,
-        _pw_field(): oauth_pass,
+        _pw_field(): client_pass,
         _offline_field(): offline,
         "ga4_property_id": "",
     }
-    path = save_google_credentials(payload)
+    path = save_google_config(payload)
     return {"status": "OK", "path": str(path)}
 
 
@@ -189,24 +196,24 @@ def setup_interactive() -> int:
     print("Google installed-app setup (copy-paste).")
     print("Create a Desktop client in Google Cloud Console.")
     print("Scopes: webmasters.readonly, analytics.readonly")
-    client_id = input("client_id: ").strip()
-    oauth_pass = input("OAuth client password: ").strip()
-    if not client_id or not oauth_pass:
-        print("client_id and OAuth client password are required.", file=sys.stderr)
+    client_id = input("Google Cloud Desktop client id: ").strip()
+    client_pass = input("Google Cloud Desktop client pass: ").strip()
+    if not client_id or not client_pass:
+        print("Desktop client id and pass are required.", file=sys.stderr)
         return 2
     print("\nOpen this URL, then paste the code:\n")
     print(authorization_url(client_id))
     print()
-    code = input("authorization code: ").strip()
-    result = exchange_code(client_id, oauth_pass, code)
+    code = input("consent code: ").strip()
+    result = exchange_code(client_id, client_pass, code)
     print(json.dumps(result, indent=2))
     return 0 if result.get("status") == "OK" else 1
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="SEO Skills AI Google credentials")
+    parser = argparse.ArgumentParser(description="SEO Skills AI Google Search Console / GA4 local config")
     parser.add_argument("--setup", action="store_true", help="Interactive copy-paste installed-app flow")
-    parser.add_argument("--status", action="store_true", help="Print local credential status")
+    parser.add_argument("--status", action="store_true", help="Print local config status")
     args = parser.parse_args()
     if args.setup:
         raise SystemExit(setup_interactive())

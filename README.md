@@ -155,7 +155,7 @@ Every command in SEO Skills can be executed directly from your terminal CLI or i
 - `/seo hreflang <url>`: Multi-regional and multi-lingual Hreflang reciprocity validator and XML sitemap generator.
 
 ### APIs, Performance & Reporting
-- `/seo google [command]`: PSI/CrUX without OAuth; GSC Search Analytics and GA4 organic sessions only after `~/.config/seoskillsai/google_credentials.json` exists (otherwise `UNAVAILABLE`, no invented numbers).
+- `/seo google [command]`: PSI/CrUX without a Google login; GSC Search Analytics and GA4 organic sessions only after `~/.config/seoskillsai/gsc_ga4.json` exists (otherwise `UNAVAILABLE`, no invented numbers).
 - `/seo backlinks <url>`: Free backlink profile and referring domain audit via Common Crawl Open Web Graph, Moz Free API, and Bing Webmaster Tools.
 - `/seo images <url>`: Visual semantic image audit, next-gen WebP/AVIF compression analysis, and IPTC AI generation metadata verification.
 - `/seo report <url>`: Generates executive-ready HTML and 200 DPI vector PDF audit reports with visual health scorecards.

@@ -2,7 +2,7 @@
 """
 Google Search Console Search Analytics.
 
-Requires ~/.config/seoskillsai/google_credentials.json from google_installed_app.py.
+Requires ~/.config/seoskillsai/gsc_ga4.json from google_installed_app.py.
 Never invents clicks or impressions.
 """
 from __future__ import annotations
@@ -16,7 +16,7 @@ from urllib.parse import quote
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from scripts.google_installed_app import load_google_credentials, refresh_google_bearer, unavailable
+from scripts.google_installed_app import load_google_config, refresh_google_bearer, unavailable
 from scripts.http_json import json_request
 from scripts.url_safety import normalize_user_url, validate_url
 
@@ -49,7 +49,7 @@ def query_gsc(site_url: str, filter_type: str = "all", days: int = 28) -> dict:
     except (ValueError, PermissionError) as exc:
         return {"site_url": site_url, "status": "BLOCKED", "error": str(exc)}
 
-    creds = load_google_credentials()
+    creds = load_google_config()
     if not creds:
         return unavailable({"site_url": url, "date_range_days": days})
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Google API credential status. Live calls live in gsc_query.py and ga4_report.py."""
+"""Google Search Console / GA4 status. Live calls live in gsc_query.py and ga4_report.py."""
 import json
 import os
 import sys

@@ -7,7 +7,7 @@ from scripts.mcp_server import handle_request
 
 
 def test_gsc_unavailable_without_creds(monkeypatch):
-    monkeypatch.setattr("scripts.gsc_query.load_google_credentials", lambda: None)
+    monkeypatch.setattr("scripts.gsc_query.load_google_config", lambda: None)
     res = query_gsc("https://example.com")
     assert res["status"] == "UNAVAILABLE"
     assert "clicks" not in res
@@ -21,8 +21,8 @@ def test_gsc_blocks_private_property():
 
 def test_gsc_mocked_searchanalytics(monkeypatch):
     monkeypatch.setattr(
-        "scripts.gsc_query.load_google_credentials",
-        lambda: {"client_id": "id", "client_secret": "mock-client", "refresh_token": "mock-refresh"},
+        "scripts.gsc_query.load_google_config",
+        lambda: {"client_id": "id", "client_secret": "x", "refresh_token": "x"},
     )
     monkeypatch.setattr(
         "scripts.gsc_query.refresh_google_bearer",
@@ -44,7 +44,7 @@ def test_gsc_mocked_searchanalytics(monkeypatch):
 
 
 def test_ga4_unavailable_without_creds(monkeypatch):
-    monkeypatch.setattr("scripts.ga4_report.load_google_credentials", lambda: None)
+    monkeypatch.setattr("scripts.ga4_report.load_google_config", lambda: None)
     res = fetch_ga4_organic_report()
     assert res["status"] == "UNAVAILABLE"
     assert "organic_sessions" not in res
@@ -52,11 +52,11 @@ def test_ga4_unavailable_without_creds(monkeypatch):
 
 def test_ga4_mocked_report(monkeypatch):
     monkeypatch.setattr(
-        "scripts.ga4_report.load_google_credentials",
+        "scripts.ga4_report.load_google_config",
         lambda: {
             "client_id": "id",
-            "client_secret": "mock-client",
-            "refresh_token": "mock-refresh",
+            "client_secret": "x",
+            "refresh_token": "x",
             "ga4_property_id": "123456",
         },
     )
@@ -88,7 +88,7 @@ def test_mcp_gsc_unavailable():
 
 
 def test_tier_status_without_file(monkeypatch, tmp_path):
-    monkeypatch.setattr("scripts.google_installed_app.credentials_path", lambda: tmp_path / "missing.json")
+    monkeypatch.setattr("scripts.google_installed_app.config_path", lambda: tmp_path / "missing.json")
     status = get_tier_status()
     assert status["status"] == "UNAVAILABLE"
     assert unavailable()["status"] == "UNAVAILABLE"

@@ -40,9 +40,9 @@ Real tokens live only in gitignored files:
 | File | Role |
 | --- | --- |
 | `config/credentials.json` | Workspace GitHub PAT (gitignored). Rotate if it ever appeared in chat. |
-| `config/credentials.example.json` | Shape only; placeholder token |
+| `config/credentials.example.json` | Shape only; no token field |
 | `~/.config/seoskillsai/credentials.json` | Same map on the user machine |
-| `~/.config/seoskillsai/google_credentials.json` | GSC/GA4 OAuth (mode 0o600) |
+| `~/.config/seoskillsai/gsc_ga4.json` | GSC/GA4 installed-app file (mode 0o600) |
 | `config/deployment-local.json` | Local ops log (gitignored) |
 
 Copy the example, then paste a PAT locally:

@@ -2,7 +2,7 @@
 """
 GA4 Data API organic-search sessions.
 
-Requires google_credentials.json with a refresh token and ga4_property_id.
+Requires gsc_ga4.json with an offline grant and ga4_property_id.
 Never invents session counts.
 """
 from __future__ import annotations
@@ -14,14 +14,14 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from scripts.google_installed_app import load_google_credentials, refresh_google_bearer, unavailable
+from scripts.google_installed_app import load_google_config, refresh_google_bearer, unavailable
 from scripts.http_json import json_request
 
 GA4_REPORT = "https://analyticsdata.googleapis.com/v1beta/properties/{property_id}:runReport"
 
 
 def fetch_ga4_organic_report(property_id: str | None = None, days: int = 30) -> dict:
-    creds = load_google_credentials()
+    creds = load_google_config()
     if not creds:
         return unavailable({"date_range_days": days})
 
@@ -29,7 +29,7 @@ def fetch_ga4_organic_report(property_id: str | None = None, days: int = 30) -> 
     if not pid:
         return {
             "status": "UNAVAILABLE",
-            "notice": "ga4_property_id is missing from ~/.config/seoskillsai/google_credentials.json",
+            "notice": "ga4_property_id is missing from ~/.config/seoskillsai/gsc_ga4.json",
             "date_range_days": days,
         }
 
