@@ -1,10 +1,7 @@
-# Unlighthouse MCP Extension: SEO Skills AI
+# Unlighthouse — third-party CLI
 
-Multi-page bulk Lighthouse 13.x Core Web Vitals runner.
+Official Unlighthouse runner. We do not bundle their server.
 
----
-
-## ⚡ Usage
 ```bash
-/seo unlighthouse https://example.com
+npx -y unlighthouse --site https://example.com
 ```

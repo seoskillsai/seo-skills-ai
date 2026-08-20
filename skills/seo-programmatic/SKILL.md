@@ -1,6 +1,10 @@
 ---
 name: seo-programmatic
 description: "Programmatic SEO scaling with strict anti-thin content quality gates. Generates template-driven datasets with unique value, real data, and zero spam penalties."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Programmatic SEO at Scale with Quality Gates

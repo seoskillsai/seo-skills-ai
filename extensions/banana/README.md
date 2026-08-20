@@ -1,11 +1,3 @@
-# Banana AI Image Generation Extension: SEO Skills AI
+# Banana — third-party MCP
 
-AI visual asset generation for OpenGraph previews, hero banners, and infographics with IPTC `TrainedAlgorithmicMedia` metadata.
-
----
-
-## ⚡ Usage
-```bash
-/seo image-gen og "Professional AI Agent Dashboard"
-/seo image-gen hero "Semantic EAV Topic Clusters"
-```
+Vendor MCP only. This repository does not implement Banana HTTP or bundle their server. Use their official image MCP with your own API key.

@@ -1,11 +1,8 @@
 {
   "name": "profound",
-  "displayName": "Profound LLM Citation Engine",
-  "version": "1.0.0",
-  "description": "Generative engine optimization citation analytics and LLM retrieval metrics.",
+  "displayName": "Profound (third-party MCP)",
+  "version": "1.2.0",
+  "description": "Vendor MCP only. We do not implement Profound HTTP in this repo.",
   "command": "python",
-  "args": ["scripts/dataforseo_api.py"],
-  "env": {
-    "PROFOUND_API_KEY": ""
-  }
+  "args": ["scripts/third_party_mcp.py", "profound"]
 }

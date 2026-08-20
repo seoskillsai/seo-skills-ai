@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "seoskillsai": {
+      "command": "python",
+      "args": ["scripts/mcp_server.py"],
+      "env": {
+        "PYTHONPATH": "."
+      }
+    }
+  }
+}

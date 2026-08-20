@@ -1,6 +1,10 @@
 ---
 name: seo-hreflang
 description: "International SEO, multi-regional architecture, and hreflang tag validation. Enforces bidirectional return tags and cultural localization profiles."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # International SEO & Hreflang Validation

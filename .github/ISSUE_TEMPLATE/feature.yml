@@ -1,0 +1,19 @@
+name: Feature request
+description: Propose a first-party script, skill, or documentation change
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is missing or painful today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Concrete change. Third-party MCP vendors stay third-party unless we own the HTTP.
+    validations:
+      required: true

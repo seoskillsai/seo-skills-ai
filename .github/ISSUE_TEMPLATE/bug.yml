@@ -1,0 +1,37 @@
+name: Bug report
+description: Something in the skills, scripts, MCP server, or CLI is wrong
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Do not paste API keys, OAuth tokens, or `~/.config/seoskillsai/` files.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Expected vs actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: Commands, URLs (public only), and relevant logs with secrets redacted
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: "1.2.0"
+  - type: dropdown
+    id: harness
+    attributes:
+      label: Agent harness
+      options:
+        - Claude Code
+        - Cursor
+        - Codex
+        - Cline / Roo
+        - Other / CLI only

@@ -1,6 +1,10 @@
 ---
 name: seo-maps
 description: "Maps intelligence, geo-grid rank tracking, Google Business Profile radius analysis, and local competitor benchmarking."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Google Maps & Geo-Grid Ranking Intelligence

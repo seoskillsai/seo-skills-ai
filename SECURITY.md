@@ -4,6 +4,7 @@
 
 | Version | Supported |
 | ------- | --------- |
+| 1.2.x   | Yes       |
 | 1.1.x   | Yes       |
 | < 1.1   | No        |
 
@@ -18,9 +19,10 @@ Every user-supplied URL is checked **before** HTTP fetch, MCP `seo_audit` / `seo
 - `http` and `https` only
 - DNS must resolve (fail closed)
 - Loopback, RFC1918, link-local, metadata (`169.254.169.254`), and other non-routable ranges are blocked
-- **Redirect hops are re-validated**
+- **Redirect hops are re-validated**; after connect, the final hostname is resolved again (DNS rebinding TOCTOU)
 - Optional allowlist: `SEOSKILLS_ALLOWED_HOSTS=example.com,www.example.com`
 - Headless Chromium subresources use the same private-IP block; set `SEOSKILLS_STRICT_BROWSER=1` to apply the allowlist to subresources too
+- Host-agent PreToolUse hooks (`hooks/hooks.json`) re-check fetch URLs and write paths from stdin JSON (no `{file}` shell interpolation)
 
 Shipped MCP config does **not** auto-approve tools. Host agents must prompt before `seo_audit` / `seo_drift`.
 

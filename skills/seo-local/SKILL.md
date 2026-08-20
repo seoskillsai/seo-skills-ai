@@ -1,6 +1,10 @@
 ---
 name: seo-local
 description: "Local SEO, Google Business Profile (GBP) audit, NAP consistency, multi-location architecture, and local citation tiers."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Local SEO & Google Business Profile Standard

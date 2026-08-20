@@ -1,11 +1,3 @@
-# SE Ranking MCP Extension: SEO Skills AI
+# SE Ranking — third-party MCP
 
-AI Share-of-Voice analytics tracking brand visibility across ChatGPT Search, Google Gemini, and Perplexity Pro.
-
----
-
-## ⚡ Usage
-```bash
-/seo seranking ai-sov "MyBrand"
-/seo seranking ranking-distribution https://example.com
-```
+Vendor MCP only. This repository does not implement SE Ranking HTTP or bundle their server. Use their official MCP with your own API key.

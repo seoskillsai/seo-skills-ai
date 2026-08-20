@@ -1,6 +1,6 @@
 [project]
 name = "seoskillsai"
-version = "1.1.1"
+version = "1.2.0"
 description = "Universal AI SEO agent skills, scripts, and MCP server."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -11,3 +11,4 @@ urls = { Homepage = "https://seoskillsai.com", Repository = "https://github.com/
 [project.optional-dependencies]
 browser = ["playwright>=1.40.0"]
 dev = ["pytest>=8.0.0"]
+google = ["google-api-python-client>=2.160.0", "google-auth-oauthlib>=1.2.0"]

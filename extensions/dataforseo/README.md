@@ -1,24 +1,9 @@
-# DataForSEO MCP Extension: SEO Skills AI
+# DataForSEO — first-party Python
 
-Enables live SERP data, keyword volume, competitor backlinks, on-page audits, and LLM brand mention tracking across 9 DataForSEO API modules.
+Live SERP and Google Ads search volume via `scripts/dataforseo_api.py`.
 
----
+Set `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD`. Missing credentials return `UNAVAILABLE` (no invented SERP rows).
 
-## ⚡ Quick Start
-
-### 1. Installation
 ```bash
-# Unix / macOS
-bash extensions/dataforseo/install.sh
-
-# Windows (PowerShell)
-powershell -ExecutionPolicy Bypass -File extensions/dataforseo/install.ps1
-```
-
-### 2. Available Commands
-```bash
-/seo dataforseo serp "best ai seo agent"
-/seo dataforseo keywords "schema generator"
-/seo dataforseo backlinks https://example.com
-/seo dataforseo ai-mentions "MyBrand"
+python scripts/dataforseo_api.py "best ai seo agent"
 ```

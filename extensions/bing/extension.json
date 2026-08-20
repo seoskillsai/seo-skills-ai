@@ -1,11 +1,8 @@
 {
   "name": "bing",
-  "displayName": "Bing Webmaster & IndexNow API",
-  "version": "1.0.0",
-  "description": "Unified Bing Webmaster crawl stats and instant IndexNow publishing engine.",
+  "displayName": "Bing Webmaster (first-party Python)",
+  "version": "1.2.0",
+  "description": "Live GetQueryStats via scripts/bing_webmaster.py. Set BING_WEBMASTER_API_KEY in the environment.",
   "command": "python",
-  "args": ["scripts/bing_webmaster.py"],
-  "env": {
-    "BING_API_KEY": ""
-  }
+  "args": ["scripts/bing_webmaster.py"]
 }

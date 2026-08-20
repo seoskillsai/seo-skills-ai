@@ -1,6 +1,10 @@
 ---
 name: seo-discover
 description: "Google Discover optimization, Media RSS XML feed generation, and First-Exposure AI Editorial Byline disclosure protocol for high-traffic editorial reach."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Google Discover, Media RSS & AI Disclosure Standard

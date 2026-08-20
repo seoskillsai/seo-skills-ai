@@ -1,6 +1,10 @@
 ---
 name: seo-image-gen
 description: "Contextual AI image and asset generation guidelines. Enforces strict prompt design for informational diagrams, editorial infographics, and compliance with Google AI image guidelines."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Contextual AI Image Generation for SEO

@@ -1,0 +1,5 @@
+# pytest==8.3.5
+# Locked for CI / plugin-scanner. Runtime remains Python 3.10+ stdlib.
+# Optional extras are documented in pyproject.toml ([project.optional-dependencies]).
+
+pytest==8.3.5

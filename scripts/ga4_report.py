@@ -1,31 +1,85 @@
 #!/usr/bin/env python3
 """
-SEO Skills AI — Google Analytics 4 (GA4) Organic Traffic Reporter
-"""
-import sys
-import json
+GA4 Data API organic-search sessions.
 
-def fetch_ga4_organic_report(property_id: str = None, days: int = 30) -> dict:
-    return {
-        "property_id": property_id or "GA4_ESTIMATED",
-        "date_range_days": days,
-        "organic_sessions": 14250,
-        "organic_users": 11890,
-        "engagement_rate": "68.4%",
-        "avg_engagement_time_seconds": 94,
-        "device_breakdown": {
-            "mobile": "62%",
-            "desktop": "35%",
-            "tablet": "3%"
+Requires google_credentials.json with a refresh token and ga4_property_id.
+Never invents session counts.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from scripts.google_oauth import load_google_credentials, refresh_access_token, unavailable
+from scripts.http_json import json_request
+
+GA4_REPORT = "https://analyticsdata.googleapis.com/v1beta/properties/{property_id}:runReport"
+
+
+def fetch_ga4_organic_report(property_id: str | None = None, days: int = 30) -> dict:
+    creds = load_google_credentials()
+    if not creds:
+        return unavailable({"date_range_days": days})
+
+    pid = (property_id or creds.get("ga4_property_id") or "").strip()
+    if not pid:
+        return {
+            "status": "UNAVAILABLE",
+            "notice": "ga4_property_id is missing from ~/.config/seoskillsai/google_credentials.json",
+            "date_range_days": days,
+        }
+
+    token = refresh_access_token(creds)
+    if token.get("status") != "OK":
+        return {"status": token.get("status", "ERROR"), "notice": token.get("notice"), "error": token.get("error")}
+
+    body = {
+        "dateRanges": [{"startDate": f"{max(1, days)}daysAgo", "endDate": "today"}],
+        "dimensions": [{"name": "sessionDefaultChannelGroup"}],
+        "metrics": [{"name": "sessions"}, {"name": "activeUsers"}],
+        "dimensionFilter": {
+            "filter": {
+                "fieldName": "sessionDefaultChannelGroup",
+                "stringFilter": {"matchType": "EXACT", "value": "Organic Search"},
+            }
         },
-        "top_organic_sources": [
-            {"source": "google / organic", "sessions": 11200, "share": "78.6%"},
-            {"source": "bing / organic", "sessions": 1840, "share": "12.9%"},
-            {"source": "duckduckgo / organic", "sessions": 710, "share": "5.0%"},
-            {"source": "perplexity / referral", "sessions": 500, "share": "3.5%"}
-        ]
+    }
+    result = json_request(
+        GA4_REPORT.format(property_id=pid),
+        method="POST",
+        headers={"Authorization": f"Bearer {token['access_token']}"},
+        body=body,
+    )
+    if result.get("status") == "ERROR":
+        return {"status": "ERROR", "property_id": pid, "error": result.get("error"), "detail": result.get("detail")}
+
+    rows = result.get("rows") or []
+    sessions = 0
+    users = 0
+    if rows:
+        values = rows[0].get("metricValues") or []
+        if values:
+            sessions = int(float(values[0].get("value") or 0))
+        if len(values) > 1:
+            users = int(float(values[1].get("value") or 0))
+
+    return {
+        "status": "OK",
+        "property_id": pid,
+        "date_range_days": days,
+        "organic_sessions": sessions,
+        "organic_users": users,
+        "notice": "Organic Search row from the GA4 Data API for the local property_id only.",
     }
 
+
 if __name__ == "__main__":
-    res = fetch_ga4_organic_report()
-    print(json.dumps(res, indent=2))
+    parser = argparse.ArgumentParser(description="GA4 organic sessions")
+    parser.add_argument("--property", dest="property_id", default=None)
+    parser.add_argument("--days", type=int, default=30)
+    args = parser.parse_args()
+    print(json.dumps(fetch_ga4_organic_report(args.property_id, args.days), indent=2))

@@ -1,9 +1,35 @@
 {
-  "description": "Optional post-write path check. Never applies patches. Does not interpolate unsanitized file paths into a shell.",
+  "description": "PreToolUse url/path gates plus post-write path check. Hooks read JSON from stdin and never interpolate unsanitized {file} paths into a shell.",
   "hooks": {
+    "PreToolUse": [
+      {
+        "tool": "WebFetch",
+        "command": "python scripts/hook_validate_fetch.py"
+      },
+      {
+        "tool": "web_fetch",
+        "command": "python scripts/hook_validate_fetch.py"
+      },
+      {
+        "tool": "Write",
+        "command": "python scripts/hook_validate_write.py"
+      },
+      {
+        "tool": "write_file",
+        "command": "python scripts/hook_validate_write.py"
+      },
+      {
+        "tool": "Edit",
+        "command": "python scripts/hook_validate_write.py"
+      }
+    ],
     "PostToolUse": [
       {
         "tool": "write_file",
+        "command": "python scripts/hook_validate_write.py"
+      },
+      {
+        "tool": "Write",
         "command": "python scripts/hook_validate_write.py"
       }
     ]

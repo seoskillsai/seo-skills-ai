@@ -1,12 +1,8 @@
 {
   "name": "dataforseo",
-  "displayName": "DataForSEO Live SERP & Keyword Intelligence",
-  "version": "1.0.0",
-  "description": "Live SERP API, keyword volumes, AI Overviews presence, and backlink data across 9 modules.",
+  "displayName": "DataForSEO Live SERP (first-party Python)",
+  "version": "1.2.0",
+  "description": "Live SERP and search volume via scripts/dataforseo_api.py. Set DATAFORSEO_LOGIN and DATAFORSEO_PASSWORD in the environment.",
   "command": "python",
-  "args": ["scripts/dataforseo_api.py"],
-  "env": {
-    "DATAFORSEO_LOGIN": "",
-    "DATAFORSEO_PASSWORD": ""
-  }
+  "args": ["scripts/dataforseo_api.py"]
 }

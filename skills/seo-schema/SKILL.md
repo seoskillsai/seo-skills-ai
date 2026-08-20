@@ -1,6 +1,10 @@
 ---
 name: seo-schema
 description: "Detects, validates, and generates 2026 Google-compliant Schema.org JSON-LD markup. Filters out deprecated types (HowTo, SpecialAnnouncement) and builds unified nested @graph entities."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # 2026 Google-Compliant Schema.org Engine

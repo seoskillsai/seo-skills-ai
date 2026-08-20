@@ -1,13 +1,17 @@
 {
   "name": "seo-skills-ai",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Universal AI SEO skills, audit scripts, and a local MCP server for Codex, Claude Code, Cursor, and compatible agents.",
-  "author": "SEO Skills AI",
+  "author": {
+    "name": "SEO Skills AI",
+    "url": "https://seoskillsai.com"
+  },
   "license": "MIT",
   "homepage": "https://seoskillsai.com",
   "repository": "https://github.com/seoskillsai/seo-skills-ai",
-  "keywords": ["seo", "mcp", "agent-skills", "audit"],
-  "skills": ["skills"],
+  "keywords": ["seo", "mcp", "agent-skills", "audit", "codex"],
+  "skills": "./skills/",
+  "hooks": "./hooks/",
   "mcpServers": {
     "seoskillsai": {
       "command": "python",
@@ -16,5 +20,14 @@
         "PYTHONPATH": "."
       }
     }
+  },
+  "interface": {
+    "displayName": "SEO Skills AI",
+    "shortDescription": "Technical SEO audits, schema, GEO, and llms.txt for coding agents.",
+    "longDescription": "27 Agent Skills, 18 specialist agents, a local stdio MCP server, and deterministic Python audit scripts. Network requests use a shared URL policy; generated patches are review-only.",
+    "developerName": "SEO Skills AI",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write", "Interactive"],
+    "websiteURL": "https://seoskillsai.com"
   }
 }

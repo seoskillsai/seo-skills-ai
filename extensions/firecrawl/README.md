@@ -1,11 +1,9 @@
-# Firecrawl MCP Extension: SEO Skills AI
+# Firecrawl — first-party Python (optional vendor MCP)
 
-Full-site crawling, deep URL discovery, and clean markdown extraction via Firecrawl API.
+First-party scrape: `scripts/firecrawl_api.py` with `FIRECRAWL_API_KEY`. User URLs still pass `url_safety`.
 
----
+Optional third-party MCP (`npx firecrawl-mcp`) is **not bundled**. Local crawls without a key: `scripts/site_crawler.py`.
 
-## ⚡ Quick Start
 ```bash
-/seo firecrawl crawl https://example.com
-/seo firecrawl scrape https://example.com/blog
+python scripts/firecrawl_api.py https://example.com
 ```

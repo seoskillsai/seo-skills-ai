@@ -1,11 +1,7 @@
-# Bing Webmaster Tools & IndexNow Extension: SEO Skills AI
+# Bing Webmaster — first-party Python
 
-Official Bing Webmaster Tools API + IndexNow protocol integration.
+Live query/traffic stats: `scripts/bing_webmaster.py` with `BING_WEBMASTER_API_KEY`. IndexNow submit remains `scripts/indexing_notify.py` (real key required).
 
----
-
-## ⚡ Usage
 ```bash
-/seo bing metrics https://example.com
-/seo bing indexnow submit https://example.com/new-article
+python scripts/bing_webmaster.py https://example.com
 ```

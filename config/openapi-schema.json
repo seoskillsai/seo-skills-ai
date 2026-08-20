@@ -2,12 +2,14 @@
   "openapi": "3.1.0",
   "info": {
     "title": "SEO Skills AI Actions API",
-    "description": "Custom GPT Actions schema for universal AI SEO audits, schema validation, and drift analysis.",
-    "version": "1.0.0"
+    "description": "Schema for a hypothetical GPT Actions HTTP API. This Python repository does not host https://api.seoskillsai.com. Use scripts/mcp_server.py (stdio) or python scripts/full_audit.py locally.",
+    "version": "1.2.0",
+    "x-not-shipped": true
   },
   "servers": [
     {
-      "url": "https://api.seoskillsai.com/v1"
+      "url": "http://127.0.0.1/not-shipped",
+      "description": "Not shipped. No public REST API is published with this repo."
     }
   ],
   "paths": {

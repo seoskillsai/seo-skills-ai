@@ -1,6 +1,10 @@
 ---
 name: seo-backlinks
 description: "Free backlink profile audit using Common Crawl web graphs, Moz Link Explorer API, and Bing Webmaster Tools without expensive SaaS subscriptions."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Free Backlink Profile & Authority Auditor

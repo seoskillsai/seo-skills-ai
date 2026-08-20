@@ -1,6 +1,10 @@
 ---
 name: seo-llms-txt
 description: "Generates specification-compliant llms.txt and llms-full.txt files from website sitemaps and content collections to optimize discovery by AI models (Perplexity, ChatGPT, Claude, Gemini)."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Automated LLMs.txt & LLMs-Full.txt Generation Standard

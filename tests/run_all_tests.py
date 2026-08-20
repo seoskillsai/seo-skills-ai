@@ -47,7 +47,7 @@ class TestSEOSkillsAIEnterprise(unittest.TestCase):
         self.assertGreaterEqual(len(ref_files), 5, "At least 5 in-depth reference files must exist")
         
         ext_dirs = list(Path("extensions").glob("*"))
-        self.assertGreaterEqual(len(ext_dirs), 8, "All 8 MCP extension modules must exist")
+        self.assertGreaterEqual(len(ext_dirs), 8, "All 8 vendor extension folders must exist")
 
     def test_url_safety(self):
         self.assertTrue(validate_url("https://example.com"))

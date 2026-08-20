@@ -1,11 +1,7 @@
-# Ahrefs MCP Extension: SEO Skills AI
+# Ahrefs — third-party MCP
 
-Official `@ahrefs/mcp` integration for live domain ratings, organic keywords, and backlink graphs.
+Official `@ahrefs/mcp`. **We do not bundle their server.** Requires your Ahrefs API key in the host environment (`AHREFS_API_KEY`).
 
----
-
-## ⚡ Usage
 ```bash
-/seo ahrefs domain-rating https://example.com
-/seo ahrefs organic-keywords https://example.com
+npx -y @ahrefs/mcp
 ```

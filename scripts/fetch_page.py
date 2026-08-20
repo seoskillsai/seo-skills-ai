@@ -13,7 +13,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-from scripts.url_safety import validate_url, validate_redirect
+from scripts.url_safety import revalidate_hostname, validate_url, validate_redirect
+from urllib.parse import urlparse
 
 USER_AGENTS = {
     "desktop": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -84,6 +85,13 @@ def fetch_page(url: str, ua_type: str = "desktop", timeout: int = 15) -> dict:
             response_headers = {k.lower(): v for k, v in response.headers.items()}
             status_code = response.status
             final_url = response.geturl()
+            try:
+                validate_url(final_url, role="redirect")
+                host = urlparse(final_url).hostname
+                if host:
+                    revalidate_hostname(host)
+            except (ValueError, PermissionError) as exc:
+                return _blocked_result(url, f"Post-connect DNS revalidation failed: {exc}")
 
             return {
                 "url": url,

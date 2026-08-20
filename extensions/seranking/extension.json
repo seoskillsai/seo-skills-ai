@@ -1,11 +1,8 @@
 {
   "name": "seranking",
-  "displayName": "SE Ranking AI Share-of-Voice",
-  "version": "1.0.0",
-  "description": "AI visibility and search engine market share analytics across AI Overviews and LLMs.",
+  "displayName": "SE Ranking (third-party MCP)",
+  "version": "1.2.0",
+  "description": "Vendor MCP only. We do not implement SE Ranking HTTP in this repo.",
   "command": "python",
-  "args": ["scripts/dataforseo_api.py"],
-  "env": {
-    "SE_RANKING_API_KEY": ""
-  }
+  "args": ["scripts/third_party_mcp.py", "seranking"]
 }

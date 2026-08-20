@@ -1,6 +1,10 @@
 ---
 name: seo-content
 description: "Holistic Semantic SEO content optimization. Enforces Entity-Attribute-Value (EAV) modeling, anti-thin educational prose (800+ words), centerpiece fold annotation, directional internal link conduits, and 3x Anchor Diversity Rule."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Topical Semantic Holistic Semantic SEO Content Standard

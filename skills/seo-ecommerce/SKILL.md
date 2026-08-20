@@ -1,6 +1,10 @@
 ---
 name: seo-ecommerce
 description: "E-commerce SEO, product schema validation, faceted navigation indexing control, out-of-stock URL management, and Google Merchant Center optimization."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # E-Commerce SEO & Product Schema Engine

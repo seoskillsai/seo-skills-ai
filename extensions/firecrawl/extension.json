@@ -1,11 +1,8 @@
 {
   "name": "firecrawl",
-  "displayName": "Firecrawl Full-Site Crawler",
-  "version": "1.0.0",
-  "description": "Full site crawler and deep URL discovery via Firecrawl API.",
-  "command": "npx",
-  "args": ["-y", "firecrawl-mcp"],
-  "env": {
-    "FIRECRAWL_API_KEY": ""
-  }
+  "displayName": "Firecrawl scrape (first-party Python) + optional vendor MCP",
+  "version": "1.2.0",
+  "description": "First-party client: python scripts/firecrawl_api.py with FIRECRAWL_API_KEY. Optional third-party: npx firecrawl-mcp (not bundled).",
+  "command": "python",
+  "args": ["scripts/firecrawl_api.py"]
 }

@@ -1,6 +1,10 @@
 ---
 name: seo-flow
 description: "7-layer recursive multi-agent SEO execution prompt workflow. Choreographs research, outline generation, semantic drafting, and schema validation."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # 7-Layer Recursive Multi-Agent Prompt Flow

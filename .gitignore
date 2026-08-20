@@ -29,6 +29,8 @@ credentials.json
 config/credentials.json
 config/bing_accounts.json
 config/deployment-local.json
+config/google_credentials.json
+**/google_credentials.json
 
 # Local Databases & Drift Snapshots
 *.db

@@ -1,6 +1,10 @@
 ---
 name: seo-robots-ai
 description: "AI bot crawler budget and permissions manager. Configures robots.txt to grant access to citation-capable AI search crawlers (GPTBot, ClaudeBot, Google-Extended) while blocking aggressive scrapers."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # AI Bot Crawler Permissions & Budget Manager

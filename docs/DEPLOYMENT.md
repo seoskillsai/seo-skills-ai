@@ -1,6 +1,6 @@
 # Deployment map — SEO Skills AI
 
-Public, no-secret inventory of where this project lives and what v1.1.1 shipped.
+Public, no-secret inventory of where this project lives and what v1.2.0 shipped.
 
 ## Canonical locations
 
@@ -8,15 +8,18 @@ Public, no-secret inventory of where this project lives and what v1.1.1 shipped.
 | --- | --- |
 | GitHub repository | https://github.com/seoskillsai/seo-skills-ai |
 | Website | https://seoskillsai.com |
+| npm CLI | `@seoskillsai/cli` |
 | Default branch | `main` |
-| Current release line | **1.1.1** (security boundaries + scanner CI) |
+| Current release line | **1.2.0** |
 | Local Cursor / git workspace | `C:\Users\sutar\Documents\Cursor\Websites\seoskillsai.comREPO` |
 | Claude plugin manifest | `.claude-plugin/plugin.json` |
 | Codex plugin manifest | `.codex-plugin/plugin.json` |
-| Marketplace metadata | `.claude-plugin/marketplace.json` and `.agents/plugins/marketplace.json` |
-| MCP stdio server | `scripts/mcp_server.py` (example: `config/cline_mcp_settings.json`) |
+| Claude marketplace | `.claude-plugin/marketplace.json` |
+| Codex marketplace | `.agents/plugins/marketplace.json` |
+| MCP stdio + Cisco scan root | `.mcp.json` + `scripts/mcp_server.py` |
 | Network-target policy | `scripts/url_safety.py` |
 | Filesystem / repo scope | `scripts/path_safety.py` |
+| Host-agent hooks | `hooks/hooks.json` |
 | Review-only patches | `scripts/remediation_engine.py` (no `--apply`) |
 | Test suites | `python tests/run_all_tests.py` and `python -m pytest tests -q` |
 
@@ -24,7 +27,7 @@ Public, no-secret inventory of where this project lives and what v1.1.1 shipped.
 
 | Workflow | File | Purpose |
 | --- | --- | --- |
-| Multi-agent CI | `.github/workflows/ci.yml` | Portability, doctor, unittest, pytest. SHA-pinned checkout + setup-python. `permissions: contents: read` |
+| Multi-agent CI | `.github/workflows/ci.yml` | Portability, doctor, unittest, pytest, live example.com smoke |
 | HOL plugin-scanner | `.github/workflows/plugin-scan.yml` | Catalog gate: score ≥ 80, `fail_on_severity: high` |
 | Dependabot | `.github/dependabot.yml` | Weekly GitHub Actions, pip, npm |
 
@@ -36,10 +39,12 @@ Real tokens live only in gitignored files:
 
 | File | Role |
 | --- | --- |
-| `config/credentials.json` | Workspace GitHub PAT (gitignored) |
+| `config/credentials.json` | Workspace GitHub PAT (gitignored). Rotate if it ever appeared in chat. |
 | `config/credentials.example.json` | Shape only; placeholder token |
 | `~/.config/seoskillsai/credentials.json` | Same map on the user machine |
-| `config/deployment-local.json` | Local ops log (gitignored): last commit, push time, paths |
+| `~/.config/seoskillsai/google_credentials.json` | GSC/GA4 OAuth (mode 0o600) |
+| `config/google_credentials.example.json` | Shape only |
+| `config/deployment-local.json` | Local ops log (gitignored) |
 
 Copy the example, then paste a PAT locally:
 
@@ -47,29 +52,22 @@ Copy the example, then paste a PAT locally:
 Copy-Item config\credentials.example.json config\credentials.json
 ```
 
-Optional vendor keys (Moz, Bing, DataForSEO, etc.) also belong under `~/.config/seoskillsai/` with `0o600` permissions — not in git.
+Optional vendor keys (Moz, Bing, DataForSEO, Firecrawl, Google OAuth) belong under `~/.config/seoskillsai/` with `0o600` permissions — not in git. Do **not** import the private Websites analytics identity DB into this public plugin.
 
-## What v1.1.1 changed (2026-08-20)
+## What v1.2.0 changed (2026-08-20)
 
-1. Explicit **network-target policy** (scheme, fail-closed DNS, private/metadata IPs, redirect re-check, optional `SEOSKILLS_ALLOWED_HOSTS`; Playwright uses the same policy).
-2. Explicit **workspace write scope** (`SEOSKILLS_OUT_DIR` / cwd). Generated `llms.txt`, RSS, screenshots, reports cannot escape the root.
-3. **MCP:** `initialize` + URL checks; shipped Cline config has **no** `autoApprove`.
-4. **Patches are review-only**; `--apply` is refused.
-5. Install docs use `seoskillsai/seo-skills-ai` (the old `seo-skills` clone URL 404’d). `@seoskillsai/cli` is documented as unpublished.
-6. PageSpeed / IndexNow / Moz / Bing stubs no longer invent success metrics.
+1. HOL scanner metadata (Codex plugin/marketplace, skills frontmatter, lockfiles, `.mcp.json`, `.codexignore`).
+2. Honest GSC/GA4 (`UNAVAILABLE` without OAuth) plus real Search Analytics / GA4 Data API when creds exist.
+3. First-party DataForSEO / Firecrawl / Bing HTTP; third-party MCP labeled as not ours.
+4. `@seoskillsai/cli` copies package contents; OpenAPI marked not-shipped.
+5. PreToolUse url/path hooks, Playwright abort helper, DNS revalidation after connect.
 
 ## Push from this machine
 
-From the workspace root, with `config/credentials.json` present:
-
-```powershell
-python -c "import json,subprocess,os; from pathlib import Path; t=json.loads(Path('config/credentials.json').read_text(encoding='utf-8'))['github']['token']; r=subprocess.run(['git','-c',f'http.extraHeader=AUTHORIZATION: bearer {t}','push','origin','HEAD'], check=False); raise SystemExit(r.returncode)"
-```
-
-Do not put the PAT in the remote URL in `.git/config`. Do not commit `config/credentials.json`.
+From the workspace root, with `config/credentials.json` present, use `Authorization: Basic` of `x-access-token:PAT` (not a PAT in `.git/config`). Do not commit `config/credentials.json`.
 
 ## After a push
 
 1. Confirm Actions: https://github.com/seoskillsai/seo-skills-ai/actions
-2. If `plugin-scan.yml` fails on MCP / headless Chrome, keep the finding and ask the awesome-ai-plugins maintainer who offered to interpret it.
-3. Only then open a listing PR against `hashgraph-online/awesome-ai-plugins`.
+2. If `plugin-scan.yml` is green (score ≥ 80, 0 high/critical), open the awesome-ai-plugins listing PR.
+3. If a new MCP/browser **High** appears, use the Reddit maintainer offer — not for leftover mediums.

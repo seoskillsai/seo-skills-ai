@@ -1,6 +1,10 @@
 ---
 name: seo-plan
 description: "Strategic SEO roadmap planning tailored to business models: SaaS, e-commerce, local service, digital publisher, and agency."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Strategic SEO Roadmap & Growth Planning

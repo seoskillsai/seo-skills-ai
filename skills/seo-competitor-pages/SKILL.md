@@ -1,6 +1,10 @@
 ---
 name: seo-competitor-pages
 description: "Generates high-converting competitor comparison pages (X vs Y, Alternatives to X) with objective feature matrices and transparent evaluation frameworks."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Competitor Comparison & Alternatives Page Architecture

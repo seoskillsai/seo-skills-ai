@@ -1,6 +1,10 @@
 ---
 name: seo-sxo
 description: "Search Experience Optimization (SXO), centerpiece fold annotation (<350px viewport), click-input-click interactive loops, and dwell-time retention moats."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Search Experience Optimization (SXO) & Retention Mastery

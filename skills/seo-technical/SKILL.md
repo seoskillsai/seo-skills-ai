@@ -1,6 +1,10 @@
 ---
 name: seo-technical
 description: "9-category technical SEO audit: crawlability, indexability, security, Core Web Vitals (INP/LCP/CLS), canonicals, redirects, HTTP headers, and IndexNow."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # 9-Category Technical SEO Audit

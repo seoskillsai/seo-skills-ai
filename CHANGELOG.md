@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ---
 
+## [1.2.0] - 2026-08-20
+
+### Security
+- Codex/Claude marketplace and plugin metadata for HOL plugin-scanner (skills path, author object, `.mcp.json`, `.codexignore`, lockfiles, SKILL.md `license` + metadata).
+- PreToolUse hooks for fetch URL policy and write path policy (stdin JSON, no `{file}` interpolation).
+- `fetch_page.py` re-resolves the final hostname after connect (DNS rebinding TOCTOU).
+- Playwright: `should_abort_request` for private-IP subresources; document `SEOSKILLS_STRICT_BROWSER=1`.
+
+### Added
+- Real Google Search Console Search Analytics and GA4 Data API organic sessions via `~/.config/seoskillsai/google_credentials.json` (`scripts/google_oauth.py`).
+- First-party HTTP for DataForSEO, Firecrawl scrape, and Bing Webmaster metrics.
+- Published `@seoskillsai/cli` that copies skills/scripts from the npm tarball.
+- Live `https://example.com` audit smoke in CI.
+- `CODE_OF_CONDUCT.md` and GitHub issue templates.
+
+### Fixed
+- GSC and GA4 no longer invent clicks, impressions, or sessions when OAuth is missing (`UNAVAILABLE` only).
+- One FAQPage rule: do not emit commercial `FAQPage` JSON-LD in every `@graph`.
+- Extensions: first-party Python vs third-party MCP labeled honestly.
+- `config/openapi-schema.json` no longer implies a live `api.seoskillsai.com`.
+
+---
+
 ## [1.1.1] - 2026-08-20
 
 ### Security
@@ -29,7 +52,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - **Google Information Gain Patent Engine (`scripts/information_gain.py`):** Analyzes US Patent 11,562,019 B2 for empirical data density and entity novelty.
 - **Automated Code Remediation Generator (`scripts/remediation_engine.py`):** Prints HTML/Astro snippets for review (does not write the repo).
 - **Google Discover & Media RSS XML Feeds (`scripts/discover_rss_builder.py`):** `<media:content>` 1200px 16:9 images and AI Byline disclosures.
-- **8 Modular MCP Extension Adapters (`extensions/*`):** DataForSEO, Firecrawl, Ahrefs, SE Ranking, Profound, Bing Webmaster, Unlighthouse, and Banana.
+- Vendor extension folders (`extensions/*`): first-party DataForSEO/Bing scripts plus third-party MCP pointers (Ahrefs, SE Ranking, Profound, Unlighthouse, Banana).
 - **Auxiliary Diagnostics:** Site Reputation Abuse (`parasite_seo.py`), Speculation Rules & bfcache (`speculation_rules.py`), Consent Mode v2 (`consent_mode.py`), and Domain Heritage (`whois_heritage.py`).
 - **Comprehensive Reference Knowledge Library:** Added in-depth reference manuals in `skills/*/references/`.
 
@@ -42,4 +65,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - 27 Standardized Agent Skills (`skills/*/SKILL.md`).
 - 18 Specialist Subagent Definitions (`agents/*.md`).
 - Deterministic SQLite Drift Monitoring (`scripts/drift_*.py`).
-- Universal Tool Mapping in `AGENTS.md` and CLI Launcher `@seoskillsai/cli`.
+- Universal Tool Mapping in `AGENTS.md` and CLI launcher.

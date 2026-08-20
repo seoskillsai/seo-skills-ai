@@ -30,6 +30,8 @@ def check_skill_file(skill_path: Path) -> list:
         errors.append("Frontmatter missing valid 'name:' field")
     if not re.search(r"^description:\s*", fm_text, re.MULTILINE):
         errors.append("Frontmatter missing 'description:' field")
+    if not re.search(r"^license:\s*MIT\s*$", fm_text, re.MULTILINE):
+        errors.append("Frontmatter missing 'license: MIT'")
 
     return errors
 

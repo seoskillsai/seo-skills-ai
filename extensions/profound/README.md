@@ -1,11 +1,3 @@
-# Profound MCP Extension: SEO Skills AI
+# Profound — third-party MCP
 
-LLM citation tracker monitoring generative engine citations and time-series query trends.
-
----
-
-## ⚡ Usage
-```bash
-/seo profound citations "Brand Name"
-/seo profound query-trend "topical query"
-```
+Vendor MCP only. This repository does not implement Profound HTTP or bundle their server. Use their official MCP with your own API key.

@@ -1,6 +1,10 @@
 ---
 name: seo-sitemap
 description: "Twin XML and dynamic HTML sitemap architecture. Generates machine-readable XML sitemaps and accessible, categorized HTML sitemaps ensuring zero orphan pages and <=2 click crawl depth."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Twin XML & Dynamic HTML Sitemap Architecture

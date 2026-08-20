@@ -1,6 +1,10 @@
 ---
 name: seo-images
 description: "Visual semantic image optimization, WebP/AVIF compression standards, Google Discover 1200px 16:9 aspect ratios, and IPTC AI metadata labeling."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Visual Semantic Image Optimization Standard

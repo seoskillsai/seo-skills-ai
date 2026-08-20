@@ -1,37 +1,40 @@
 ---
 name: seo-google
-description: "4-tier Google API automation: PageSpeed Insights, CrUX 25-week history, Google Search Console query mining, URL Inspection, Google Indexing API, and GA4 traffic reports."
+description: "Google SEO APIs: public PSI/CrUX plus optional OAuth Search Console Search Analytics and GA4 organic sessions from ~/.config/seoskillsai/google_credentials.json."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Google SEO APIs & Real User Metrics
 
-Automates Google search and performance APIs with a 4-tier progressive credential system.
+PageSpeed Insights and CrUX work without a user OAuth token. Search Console Search Analytics and GA4 organic sessions require a **local** OAuth client.
+
+Copy `config/google_credentials.example.json` to `~/.config/seoskillsai/google_credentials.json` (mode `0o600`) and run `python scripts/google_oauth.py --setup`. Scopes: `webmasters.readonly`, `analytics.readonly`.
+
+Until that file exists, `python scripts/gsc_query.py` and `python scripts/ga4_report.py` return `{"status": "UNAVAILABLE"}` with **no invented metrics**. MCP tools `seo_gsc` / `seo_ga4` do the same.
+
+Do not wire this public plugin to any private analytics identity database.
 
 ---
 
-## 🔑 Progressive 4-Tier Credential System
+## Credential gate
 
-| Tier | Required Key | Unlocked Capabilities |
+| Surface | Required local data | If missing |
 | :--- | :--- | :--- |
-| **Tier 0 (Free/Public)** | None / Public PSI Key | PageSpeed Insights v5, CrUX 25-week performance history, Lighthouse lab tests. |
-| **Tier 1 (Search Console)** | Service Account / OAuth | GSC query performance, striking-distance keyword mining (pos 8–20), URL inspection API, Indexing API v3. |
-| **Tier 2 (Analytics)** | GA4 Property ID | Organic traffic trends, top landing pages, country/device breakdown. |
-| **Tier 3 (Ads Planner)** | Ads Developer Token | Keyword Planner exact search volume and competition data. |
+| PSI / CrUX | none | live public APIs or UNAVAILABLE (never fake scores) |
+| GSC Search Analytics | OAuth refresh token | `UNAVAILABLE` |
+| GA4 organic sessions | OAuth refresh token **and** `ga4_property_id` | `UNAVAILABLE` |
 
 ---
 
-## 🛠️ CLI Execution Commands
+## CLI
 
 ```bash
-# Setup Google Credentials Wizard
-python scripts/google_auth.py --setup
-
-# Query Striking Distance Keywords from GSC
-python scripts/gsc_query.py --site "https://example.com" --filter "striking-distance"
-
-# Fetch CrUX 25-Week Performance History
+python scripts/google_oauth.py --setup
+python scripts/google_auth.py --status
+python scripts/gsc_query.py --site "https://example.com" --filter striking-distance
+python scripts/ga4_report.py --days 28
 python scripts/crux_history.py --url "https://example.com"
-
-# Submit Batch URLs to Google Indexing API
-python scripts/indexing_notify.py --urls "public/sitemap-index.xml"
 ```

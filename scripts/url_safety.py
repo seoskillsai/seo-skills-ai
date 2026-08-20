@@ -157,6 +157,15 @@ def validate_url(url: str, *, role: str = "navigation") -> bool:
     return True
 
 
+def revalidate_hostname(hostname: str) -> bool:
+    """Re-resolve after connect to reduce DNS-rebinding TOCTOU."""
+    host = _normalize_hostname(hostname)
+    if not host:
+        raise ValueError("Invalid URL: missing hostname.")
+    _check_ip_literal_or_resolved(host)
+    return True
+
+
 def validate_redirect(from_url: str, to_url: str) -> bool:
     absolute = urljoin(from_url, to_url)
     return validate_url(absolute, role="redirect")

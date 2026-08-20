@@ -1,11 +1,8 @@
 {
   "name": "banana",
-  "displayName": "Banana AI Creative Director & Image Engine",
-  "version": "1.0.0",
-  "description": "Contextual AI image generation with IPTC TrainedAlgorithmicMedia metadata.",
+  "displayName": "Banana (third-party MCP)",
+  "version": "1.2.0",
+  "description": "Vendor MCP only. We do not implement Banana HTTP in this repo.",
   "command": "python",
-  "args": ["scripts/dataforseo_api.py"],
-  "env": {
-    "BANANA_API_KEY": ""
-  }
+  "args": ["scripts/third_party_mcp.py", "banana"]
 }

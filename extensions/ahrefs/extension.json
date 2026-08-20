@@ -1,11 +1,8 @@
 {
   "name": "ahrefs",
-  "displayName": "Ahrefs Live Link Index",
-  "version": "1.0.0",
-  "description": "Live backlink graphs, domain ratings, and organic traffic metrics via @ahrefs/mcp.",
+  "displayName": "Ahrefs (third-party MCP)",
+  "version": "1.2.0",
+  "description": "Official @ahrefs/mcp. We do not bundle their server. Requires AHREFS_API_KEY in your host env.",
   "command": "npx",
-  "args": ["-y", "@ahrefs/mcp"],
-  "env": {
-    "AHREFS_API_KEY": ""
-  }
+  "args": ["-y", "@ahrefs/mcp"]
 }

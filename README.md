@@ -15,7 +15,7 @@
 
 > **SEO Skills** is the universal, open-source AI search engine optimization skill suite and audit engine for modern AI coding agents — including **Anthropic Claude Code**, **Google Antigravity IDE**, **Cursor IDE**, **Windsurf Cascade**, **GitHub Copilot**, **OpenAI ChatGPT / Codex**, **Cline & Roo Code**, **Aider CLI**, and **DeepSeek R1**.
 
-Built upon the **Holistic Semantic SEO Framework**, **Google Information Gain Patent US 11,562,019 B2**, **2026 Google Search Essentials**, and the open **Agent Skills Specification**, SEO Skills delivers **27 modular sub-skills**, **18 specialist sub-agents**, **8 MCP extension adapters**, and a deterministic zero-telemetry Python execution engine for automated technical audits, on-page optimization, and AI search citability.
+Built upon the **Holistic Semantic SEO Framework**, **Google Information Gain Patent US 11,562,019 B2**, **2026 Google Search Essentials**, and the open **Agent Skills Specification**, SEO Skills delivers **27 modular sub-skills**, **18 specialist sub-agents**, first-party Python adapters (DataForSEO, Firecrawl, Bing Webmaster, IndexNow), optional **third-party vendor MCP** (Ahrefs, SE Ranking, Profound, Banana, Unlighthouse), and a deterministic zero-telemetry Python execution engine.
 
 ---
 
@@ -27,10 +27,10 @@ SEO Skills is proven across both **brand-new domains** launched from scratch and
 Empirical Google Search Console trajectory for brand new domains launched with SEO Skills structured EAV entity modeling and Schema.org graphs:
 
 ![Brand New Sites Google Performance](assets/screenshots/ai-seo-skills-for-new-sites-on-google.png)
-*Figure 1: Explosive organic impression velocity and search pickup on Google within weeks of initial launch.*
+*Figure 1 (illustrative): Google Search Console performance UI. Property, date range, and filters are whatever appears in the screenshot — not a live export from this repository.*
 
 ![Brand New Sites Organic Growth](assets/screenshots/seo-skills-for-brand-new-sites-ranking-on-google-with-ai-claude-seo.png)
-*Figure 2: Consistent keyword expansion and CTR growth driven by topical authority and 130-word citable answer passages.*
+*Figure 2 (illustrative): GSC query/page table for an example property. Treat as a UI example, not packaged ranking proof.*
 
 ---
 
@@ -38,7 +38,7 @@ Empirical Google Search Console trajectory for brand new domains launched with S
 Accelerated crawl discovery and top-tier rankings on Bing Search via unified Bing Webmaster and IndexNow automation:
 
 ![Bing Webmaster Growth](assets/screenshots/ai-seo-skills-for-new-sites-on-bing.png)
-*Figure 3: Instant Bing indexation and organic search impressions across fresh programmatic content silos.*
+*Figure 3 (illustrative): Bing Webmaster Tools UI for an example site and date range.*
 
 ---
 
@@ -46,13 +46,21 @@ Accelerated crawl discovery and top-tier rankings on Bing Search via unified Bin
 Resolving technical debt, deprecated schemas, and thin content to recover decaying legacy properties:
 
 ![Recovering Old Projects](assets/screenshots/recovering-old-projects.png)
-*Figure 4: Reversing traffic decline on established domains by enforcing Semantic EAV architecture and 2026 Schema standards.*
+*Figure 4 (illustrative): Search performance chart for a recovering property. Filters and dates are those shown in the image.*
 
 ---
 
 ## Installation
 
-Clone the repository and open it as the agent workspace. The npm package `@seoskillsai/cli` is **not published**; do not run `npx @seoskillsai/cli`.
+Clone the repository and open it as the agent workspace, or install the published CLI:
+
+```bash
+npx @seoskillsai/cli add cursor
+```
+
+That command copies `skills/`, `scripts/`, `AGENTS.md`, and related manifests from the npm tarball into the current directory.
+
+You can also clone:
 
 ```bash
 git clone https://github.com/seoskillsai/seo-skills-ai.git
@@ -152,7 +160,7 @@ Every command in SEO Skills can be executed directly from your terminal CLI or i
 - `/seo hreflang <url>`: Multi-regional and multi-lingual Hreflang reciprocity validator and XML sitemap generator.
 
 ### APIs, Performance & Reporting
-- `/seo google [command]`: 4-tier progressive Google API automation (Tier 0: PSI & CrUX 25-week history; Tier 1: Search Console & Indexing API; Tier 2: GA4; Tier 3: Keyword Planner).
+- `/seo google [command]`: PSI/CrUX without OAuth; GSC Search Analytics and GA4 organic sessions only after `~/.config/seoskillsai/google_credentials.json` exists (otherwise `UNAVAILABLE`, no invented numbers).
 - `/seo backlinks <url>`: Free backlink profile and referring domain audit via Common Crawl Open Web Graph, Moz Free API, and Bing Webmaster Tools.
 - `/seo images <url>`: Visual semantic image audit, next-gen WebP/AVIF compression analysis, and IPTC AI generation metadata verification.
 - `/seo report <url>`: Generates executive-ready HTML and 200 DPI vector PDF audit reports with visual health scorecards.
@@ -161,18 +169,21 @@ Every command in SEO Skills can be executed directly from your terminal CLI or i
 
 ---
 
-## 🔌 Modular MCP Extensions Ecosystem
+## Vendor APIs: first-party HTTP vs third-party MCP
 
-SEO Skills packages **8 plug-and-play MCP extension adapters** located in `extensions/`:
+This repo owns a small set of Python HTTP clients. Other vendors are **official MCP servers you run with their keys**; we do not bundle those servers.
 
-1. [`extensions/dataforseo/`](./extensions/dataforseo): Live SERP scraping, search volume, keyword difficulty, competitor backlinks, and AI Overviews tracking.
-2. [`extensions/firecrawl/`](./extensions/firecrawl): Cloud full-site crawling, sitemap discovery, and clean markdown page extraction.
-3. [`extensions/ahrefs/`](./extensions/ahrefs): Official `@ahrefs/mcp` integration for Domain Rating, keyword gaps, and live backlink graphs.
-4. [`extensions/seranking/`](./extensions/seranking): AI Share-of-Voice analytics across ChatGPT, Google Gemini, Perplexity Pro, and AI Overviews.
-5. [`extensions/profound/`](./extensions/profound): LLM citation tracking with time-series retrieval data.
-6. [`extensions/bing/`](./extensions/bing): Bing Webmaster Tools API + instant IndexNow batch submission protocol.
-7. [`extensions/unlighthouse/`](./extensions/unlighthouse): Multi-page bulk Lighthouse 13.x performance and Core Web Vitals test runner.
-8. [`extensions/banana/`](./extensions/banana): Contextual AI image generator with IPTC `TrainedAlgorithmicMedia` metadata.
+**First-party (our HTTP, credentials from env / `~/.config/seoskillsai/`):**
+
+| Adapter | Script | Credentials |
+| --- | --- | --- |
+| DataForSEO SERP + volume | `scripts/dataforseo_api.py` | `DATAFORSEO_LOGIN` / `DATAFORSEO_PASSWORD` |
+| Firecrawl scrape | `scripts/firecrawl_api.py` | `FIRECRAWL_API_KEY` |
+| Bing Webmaster metrics | `scripts/bing_webmaster.py` | `BING_WEBMASTER_API_KEY` |
+| IndexNow submit | `scripts/indexing_notify.py` | IndexNow key (required; no fake accepted counts) |
+| GSC / GA4 | `scripts/gsc_query.py`, `scripts/ga4_report.py` | OAuth file from `google_oauth.py` |
+
+**Third-party MCP (not our implementation):** Ahrefs (`@ahrefs/mcp`), SE Ranking, Profound, Banana, Unlighthouse. See `extensions/*/README.md`. Example MCP snippets use `${ENV}` placeholders — never commit empty `"API_KEY": ""` as if it were a secret.
 
 ---
 
@@ -199,7 +210,9 @@ SEO Skills is founded upon the **Topical Authority & Semantic SEO Standard**, pr
 - **Network-target policy:** User-supplied URLs go through `scripts/url_safety.py` (scheme, DNS fail-closed, private/metadata IP block, **redirect re-check**). Optional allowlist: `SEOSKILLS_ALLOWED_HOSTS`. Headless Chromium uses the same policy for navigation and blocks private-IP subresources.
 - **Repo scope:** Generated files stay under `SEOSKILLS_OUT_DIR` (default: cwd). Remediation patches are review-only.
 - **MCP:** Shipped Cline config does not `autoApprove` fetch tools.
-- **Optional vendor APIs:** PageSpeed, CrUX, RDAP, IndexNow, and MCP extensions send the URL you asked to audit to those vendors when you run those commands.
+- **Host-agent hooks:** `hooks/hooks.json` PreToolUse runs `hook_validate_fetch.py` / `hook_validate_write.py` on stdin JSON (no `{file}` shell interpolation).
+- **Playwright:** navigation and private-IP subresources are aborted. Set `SEOSKILLS_STRICT_BROWSER=1` to apply `SEOSKILLS_ALLOWED_HOSTS` to subresources too.
+- **Optional vendor APIs:** PageSpeed, CrUX, RDAP, IndexNow, DataForSEO, Firecrawl, Bing Webmaster, and third-party MCP send the URL you asked to audit to those vendors when you run those commands.
 - **Credentials:** Optional keys in `~/.config/seoskillsai/` with `0o600` permissions, gitignored.
 
 See [SECURITY.md](SECURITY.md).

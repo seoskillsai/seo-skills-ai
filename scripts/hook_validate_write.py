@@ -27,13 +27,15 @@ def _extract_path(payload: dict) -> str | None:
 
 
 def main() -> int:
-    path = sys.argv[1] if len(sys.argv) > 1 else None
     raw = sys.stdin.read() if not sys.stdin.isatty() else ""
-    if not path and raw.strip():
+    path = None
+    if raw.strip():
         try:
             path = _extract_path(json.loads(raw))
         except json.JSONDecodeError:
             path = None
+    if not path and len(sys.argv) > 1:
+        path = sys.argv[1]
     if not path:
         return 0
     try:

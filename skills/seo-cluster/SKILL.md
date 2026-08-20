@@ -1,6 +1,10 @@
 ---
 name: seo-cluster
 description: "SERP-based semantic keyword and topic clustering. Groups search terms by SERP URL overlap percentage to eliminate keyword cannibalization."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # SERP-Based Semantic Keyword Clustering

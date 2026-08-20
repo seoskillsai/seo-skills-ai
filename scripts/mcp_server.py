@@ -18,10 +18,12 @@ if hasattr(sys.stdout, "reconfigure"):
 from scripts.full_audit import run_full_audit
 from scripts.schema_validator import validate_schema_json
 from scripts.drift_compare import compare_drift
+from scripts.gsc_query import query_gsc
+from scripts.ga4_report import fetch_ga4_organic_report
 from scripts.url_safety import validate_url
 
 PROTOCOL_VERSION = "2024-11-05"
-SERVER_INFO = {"name": "seoskillsai", "version": "1.1.1"}
+SERVER_INFO = {"name": "seoskillsai", "version": "1.2.0"}
 
 TOOLS = [
     {
@@ -55,6 +57,28 @@ TOOLS = [
                 "url": {"type": "string", "description": "Public http(s) website URL"}
             },
             "required": ["url"]
+        }
+    },
+    {
+        "name": "seo_gsc",
+        "description": "Google Search Console Search Analytics for a user-supplied site URL. Returns UNAVAILABLE until local OAuth credentials exist.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "site_url": {"type": "string", "description": "Search Console property URL (sc-domain: or https://)"},
+                "filter": {"type": "string", "description": "all or striking-distance"}
+            },
+            "required": ["site_url"]
+        }
+    },
+    {
+        "name": "seo_ga4",
+        "description": "GA4 Data API organic-search sessions. Returns UNAVAILABLE unless ga4_property_id is in local Google credentials.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "property_id": {"type": "string", "description": "Optional GA4 numeric property id override"}
+            }
         }
     }
 ]
@@ -122,6 +146,14 @@ def handle_request(req):
             if tool_name == "seo_drift":
                 url = _require_public_url(args)
                 return _tool_text(req_id, compare_drift(url))
+            if tool_name == "seo_gsc":
+                site_url = args.get("site_url") or args.get("url")
+                if not isinstance(site_url, str) or not site_url.strip():
+                    raise ValueError("site_url is required")
+                return _tool_text(req_id, query_gsc(site_url.strip(), filter_type=args.get("filter") or "striking-distance"))
+            if tool_name == "seo_ga4":
+                pid = args.get("property_id")
+                return _tool_text(req_id, fetch_ga4_organic_report(pid if isinstance(pid, str) else None))
         except (ValueError, PermissionError) as exc:
             return _tool_error(req_id, str(exc))
 

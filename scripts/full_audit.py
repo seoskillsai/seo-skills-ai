@@ -106,6 +106,7 @@ def run_full_audit(url: str) -> dict:
         },
         "metrics": {
             "status_code": page["status_code"],
+            "title": parsed.get("title") or "",
             "latency_ms": page["latency_ms"],
             "word_count": parsed["word_count"],
             "h1_count": len(parsed["h1"]),

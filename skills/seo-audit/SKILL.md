@@ -1,6 +1,10 @@
 ---
 name: seo-audit
 description: "Parallel multi-agent full site audit. Spawns up to 15 specialist agents to inspect technical health, Topical Semantic semantic content, 2026 schema, GEO citability, and backlinks."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Parallel Full-Site SEO Audit Standard

@@ -1,6 +1,10 @@
 ---
 name: seo-geo
 description: "Generative Engine Optimization (GEO). Optimizes website content for citations in Google AI Overviews, Perplexity Pro, ChatGPT Search, and Bing Copilot."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # Generative Engine Optimization (GEO) Standard

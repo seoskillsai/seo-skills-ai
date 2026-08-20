@@ -1,51 +1,110 @@
 #!/usr/bin/env python3
 """
-SEO Skills AI — Google Search Console Query & Striking-Distance Keyword Miner
-Queries GSC API for impressions, clicks, CTR, and positions, filtering striking-distance terms (positions 8-20).
+Google Search Console Search Analytics.
+
+Requires ~/.config/seoskillsai/google_credentials.json from google_oauth.py.
+Never invents clicks or impressions.
 """
-import sys
+from __future__ import annotations
+
+import argparse
 import json
 import os
-from pathlib import Path
+import sys
+from datetime import date, timedelta
+from urllib.parse import quote
 
-CRED_PATH = Path.home() / ".config" / "seoskillsai" / "google_credentials.json"
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from scripts.google_oauth import load_google_credentials, refresh_access_token, unavailable
+from scripts.http_json import json_request
+from scripts.url_safety import normalize_user_url, validate_url
+
+GSC_QUERY = "https://searchconsole.googleapis.com/webmasters/v3/sites/{site}/searchAnalytics/query"
+
+
+def _parse_args(argv: list[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="GSC Search Analytics")
+    parser.add_argument("site_url", nargs="?", default=None)
+    parser.add_argument("--site", dest="site_flag")
+    parser.add_argument("--filter", dest="filter_type", default="striking-distance")
+    parser.add_argument("--days", type=int, default=28)
+    return parser.parse_args(argv)
+
+
+def _validate_gsc_property(site_url: str) -> str:
+    text = (site_url or "").strip()
+    if text.lower().startswith("sc-domain:"):
+        domain = text.split(":", 1)[1].strip().rstrip("/")
+        validate_url("https://" + domain)
+        return "sc-domain:" + domain
+    url = normalize_user_url(text)
+    validate_url(url)
+    return url
+
 
 def query_gsc(site_url: str, filter_type: str = "all", days: int = 28) -> dict:
-    """
-    Pulls GSC performance data. If no OAuth credentials exist, provides deterministic simulation mode.
-    """
-    if not CRED_PATH.exists():
-        # Tier 0 Deterministic Fallback Mode
-        return {
-            "site_url": site_url,
-            "mode": "TIER_0_ESTIMATED",
-            "date_range_days": days,
-            "total_clicks": 2840,
-            "total_impressions": 108500,
-            "average_ctr": 2.62,
-            "average_position": 14.8,
-            "striking_distance_keywords": [
-                {"query": "ai seo agent", "clicks": 210, "impressions": 8400, "ctr": 2.5, "position": 8.4, "opportunity": "High (Add H2 EAV section)"},
-                {"query": "schema generator 2026", "clicks": 180, "impressions": 6200, "ctr": 2.9, "position": 11.2, "opportunity": "High (Add FAQPage & Breadcrumb)"},
-                {"query": "llms.txt generator", "clicks": 95, "impressions": 4800, "ctr": 1.9, "position": 13.6, "opportunity": "Very High (Create interactive tool)"},
-                {"query": "cursor seo rules", "clicks": 140, "impressions": 5100, "ctr": 2.7, "position": 9.8, "opportunity": "High (Add .cursorrules copy widget)"}
-            ],
-            "top_landing_pages": [
-                {"url": f"{site_url}/", "clicks": 1200, "impressions": 45000, "position": 6.2},
-                {"url": f"{site_url}/skills/seo-audit", "clicks": 850, "impressions": 32000, "position": 8.9},
-                {"url": f"{site_url}/skills/seo-schema", "clicks": 420, "impressions": 18000, "position": 12.4}
-            ]
-        }
-
-    # If credentials exist, query official GSC REST API
     try:
-        with open(CRED_PATH, "r", encoding="utf-8") as f:
-            creds = json.load(f)
-        return {"status": "AUTHENTICATED", "site_url": site_url, "data": {}}
-    except Exception as e:
-        return {"status": "ERROR", "error": str(e)}
+        url = _validate_gsc_property(site_url)
+    except (ValueError, PermissionError) as exc:
+        return {"site_url": site_url, "status": "BLOCKED", "error": str(exc)}
+
+    creds = load_google_credentials()
+    if not creds:
+        return unavailable({"site_url": url, "date_range_days": days})
+
+    token = refresh_access_token(creds)
+    if token.get("status") != "OK":
+        return {"site_url": url, "status": token.get("status", "ERROR"), "notice": token.get("notice"), "error": token.get("error")}
+
+    end = date.today()
+    start = end - timedelta(days=max(1, days))
+    encoded_site = quote(url, safe="")
+    endpoint = GSC_QUERY.format(site=encoded_site)
+    payload = {
+        "startDate": start.isoformat(),
+        "endDate": end.isoformat(),
+        "dimensions": ["query"],
+        "rowLimit": 25000,
+    }
+    result = json_request(
+        endpoint,
+        method="POST",
+        headers={"Authorization": f"Bearer {token['access_token']}"},
+        body=payload,
+    )
+    if result.get("status") == "ERROR":
+        return {"site_url": url, "status": "ERROR", "error": result.get("error"), "detail": result.get("detail")}
+
+    rows = result.get("rows") or []
+    keywords = []
+    for row in rows:
+        keys = row.get("keys") or []
+        query = keys[0] if keys else ""
+        position = float(row.get("position") or 0)
+        item = {
+            "query": query,
+            "clicks": row.get("clicks"),
+            "impressions": row.get("impressions"),
+            "ctr": row.get("ctr"),
+            "position": position,
+        }
+        if filter_type == "striking-distance" and not (8.0 <= position <= 20.0):
+            continue
+        keywords.append(item)
+
+    return {
+        "site_url": url,
+        "status": "OK",
+        "date_range_days": days,
+        "filter": filter_type,
+        "row_count": len(keywords),
+        "keywords": keywords,
+        "notice": "Values come from Search Console Search Analytics for the authenticated Google account.",
+    }
+
 
 if __name__ == "__main__":
-    target = sys.argv[1] if len(sys.argv) > 1 else "https://seoskillsai.com"
-    res = query_gsc(target, filter_type="striking-distance")
-    print(json.dumps(res, indent=2))
+    args = _parse_args(sys.argv[1:])
+    target = args.site_flag or args.site_url or "https://example.com"
+    print(json.dumps(query_gsc(target, filter_type=args.filter_type, days=args.days), indent=2))

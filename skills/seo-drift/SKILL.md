@@ -1,6 +1,10 @@
 ---
 name: seo-drift
 description: "SEO drift monitoring with local SQLite snapshots. Tracks on-page title, schema, heading, and content changes across deployments with 17 comparison rules."
+license: MIT
+metadata:
+  author: SEO Skills AI
+  version: "1.2.0"
 ---
 
 # SEO Drift Monitoring with SQLite Baselines

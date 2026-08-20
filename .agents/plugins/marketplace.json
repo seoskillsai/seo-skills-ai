@@ -1,16 +1,20 @@
 {
-  "name": "seoskillsai-marketplace",
-  "owner": "seoskillsai",
+  "name": "seo-skills-ai",
+  "interface": {
+    "displayName": "SEO Skills AI"
+  },
   "plugins": [
     {
-      "name": "seo-skills",
-      "slug": "seo-skills@seoskillsai-seo-skills",
-      "description": "Universal AI SEO analysis tool: 27 sub-skills, 18 specialist agents. Technical SEO, E-E-A-T, schema, GEO, llms.txt, Discover, and backlinks.",
-      "version": "1.1.1",
-      "repository": "https://github.com/seoskillsai/seo-skills-ai",
-      "homepage": "https://seoskillsai.com",
-      "author": "SEO Skills AI",
-      "license": "MIT"
+      "name": "seo-skills-ai",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Productivity"
     }
   ]
 }

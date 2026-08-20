@@ -1,12 +1,27 @@
 {
-  "name": "seoskillsai",
-  "version": "1.1.1",
+  "name": "@seoskillsai/cli",
+  "version": "1.2.0",
   "description": "SEO Skills: Universal AI SEO Agent and Technical Optimization Suite across Claude Code, Antigravity, Cursor, Windsurf, Copilot, ChatGPT, and Cline.",
-  "main": "bin/seoskills",
+  "type": "module",
+  "main": "packages/cli/index.mjs",
   "bin": {
-    "seoskills": "./bin/seoskills",
-    "seo": "./bin/seoskills"
+    "seoskills": "./packages/cli/index.mjs",
+    "seo": "./packages/cli/index.mjs"
   },
+  "files": [
+    "packages/cli/index.mjs",
+    "skills",
+    "scripts",
+    "agents",
+    "hooks",
+    "AGENTS.md",
+    ".cursorrules",
+    ".claude-plugin",
+    ".codex-plugin",
+    "pyproject.toml",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "test": "python tests/run_all_tests.py",
     "doctor": "python scripts/doctor.py",
@@ -16,28 +31,12 @@
   },
   "keywords": [
     "seo skills",
-    "seo skill",
     "ai seo agent",
-    "claude seo tool",
     "claude seo",
     "cursor seo",
-    "windsurf seo",
-    "copilot seo tool",
-    "github seo",
-    "code seo",
-    "onpage seo audit",
-    "technical seo",
-    "topical semantic seo",
-    "eav seo",
-    "information gain patent",
-    "schema generator 2026",
-    "llms.txt generator",
-    "google discover rss",
-    "site audit report template",
-    "moz backlink checker",
-    "ahrefs keyword gap",
-    "bing webmaster indexnow",
-    "core web vitals inp"
+    "codex",
+    "mcp",
+    "agent-skills"
   ],
   "author": "SEO Skills AI Open Source Community",
   "license": "MIT",
@@ -45,5 +44,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/seoskillsai/seo-skills-ai.git"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

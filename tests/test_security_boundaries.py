@@ -12,7 +12,7 @@ def test_mcp_initialize_and_tool_list():
     assert init["result"]["serverInfo"]["name"] == "seoskillsai"
     listed = handle_request({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
     names = {t["name"] for t in listed["result"]["tools"]}
-    assert names == {"seo_audit", "seo_schema", "seo_drift"}
+    assert names == {"seo_audit", "seo_schema", "seo_drift", "seo_gsc", "seo_ga4"}
 
 
 def test_mcp_audit_blocks_private_url():

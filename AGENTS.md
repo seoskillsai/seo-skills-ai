@@ -59,7 +59,8 @@ When executing any SEO analysis or generating content:
 2. **2026 Structured Data Standard:**
    - Only output valid, non-deprecated Schema.org JSON-LD.
    - Never generate deprecated types (`HowTo`, `SpecialAnnouncement`, `ClaimReview`).
-   - Group schemas into a unified `@graph` including `TechArticle`, `SoftwareApplication`, `SoftwareSourceCode`, `BreadcrumbList`, and `FAQPage`.
+   - Group schemas into a unified `@graph` with `TechArticle`, `SoftwareApplication`, `SoftwareSourceCode`, and `BreadcrumbList`.
+   - Do **not** emit `FAQPage` on commercial pages. Google restricted FAQ rich results to government and health sites (2023) and commercial FAQ snippets are not a ranking tactic here. Keep FAQ copy as HTML; schema FAQ only for internal entity notes if a specialist skill requires it.
 
 3. **Zero-Hallucination & Falsifiability:**
    - Every diagnostic finding must reference exact primary evidence (DOM node, HTTP status, header value, CrUX field metric).

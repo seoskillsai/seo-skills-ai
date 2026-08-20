@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security
+    url: https://github.com/seoskillsai/seo-skills-ai/blob/main/SECURITY.md
+    about: Report a vulnerability privately if possible; do not attach secrets.
