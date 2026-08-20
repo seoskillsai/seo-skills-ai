@@ -25,7 +25,7 @@ python scripts/portability_check.py
 | **Anthropic Claude Code** | Auto-discovered via `.claude-plugin/plugin.json` or invoked via `/seo [command]`. |
 | **OpenAI ChatGPT / Codex CLI** | Reads `AGENTS.md` at root. Custom Actions utilize `config/openapi-schema.json`. |
 | **Cline & Roo Code (VS Code)** | Loads `AGENTS.md` from root. MCP tools are configured in `config/cline_mcp_settings.json`. |
-| **Aider CLI** | Reads `AGENTS.md` from root. Executes SEO refactoring directly with automatic Git diff commits. |
+| **Aider CLI** | Reads `AGENTS.md` from root. Review generated SEO diffs before applying; do not auto-commit patches. |
 | **DeepSeek R1 / Local Ollama** | Contextually ingest `skills/{skill}/SKILL.md` for zero-token-cost local execution. |
 
 ---

@@ -15,7 +15,7 @@ Run once upon installation:
 /seo doctor
 ```
 
-`/seo setup` provisions an isolated virtual environment (`~/.config/seoskillsai/venv`) and installs Playwright Chromium. Check readiness at any time with `/seo doctor`.
+`/seo setup` initializes the local SQLite drift database under `~/.config/seoskillsai/`. Playwright Chromium is installed by `install.sh` / `install.ps1`, not by `/seo setup`. Check readiness with `/seo doctor`.
 
 ---
 

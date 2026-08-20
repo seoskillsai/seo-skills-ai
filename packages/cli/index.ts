@@ -2,37 +2,75 @@
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const args = process.argv.slice(2);
 const action = args[0];
 const target = args[1];
+const here = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.resolve(here, '..', '..');
+const inRepo = fs.existsSync(path.join(repoRoot, 'AGENTS.md')) && fs.existsSync(path.join(repoRoot, 'skills'));
 
-console.log(`\x1b[36m[seoskillsai CLI]\x1b[0m Universal Multi-Agent SEO Engine v1.1.0`);
+console.log(`[seoskillsai CLI] SEO Skills AI v1.1.1`);
 
 if (!action || action === 'help' || action === '--help') {
   console.log(`
-Usage:
-  npx @seoskillsai/cli add <agent>        Install SEO skills for agent (claude, antigravity, cursor, windsurf, all)
-  npx @seoskillsai/cli audit <url>        Run parallel multi-agent full site audit
-  npx @seoskillsai/cli crawl <url>        Run recursive multi-page crawl & internal link graph
-  npx @seoskillsai/cli info-gain <url>    Calculate Google Information Gain patent score
-  npx @seoskillsai/cli fix <url>          Generate instant copy-paste code remediation patches
-  npx @seoskillsai/cli doctor             Verify runtime environment health
+This CLI is the in-repo launcher. The npm package is not published.
+
+Install:
+  git clone https://github.com/seoskillsai/seo-skills-ai.git
+  cd seo-skills-ai
+  # Unix:  bash install.sh
+  # Win:   powershell -ExecutionPolicy Bypass -File .\\install.ps1
+  # Then open this folder as the agent workspace.
+
+Commands (from the cloned repo):
+  node packages/cli/index.ts doctor
+  python scripts/full_audit.py <url>
+  python scripts/remediation_engine.py <url>
 `);
   process.exit(0);
 }
 
 if (action === 'add') {
-  const agent = target || 'all';
-  console.log(`\x1b[32m✔ Configuring SEO Skills AI for agent: ${agent}\x1b[0m`);
-  if (agent === 'cursor' || agent === 'all') {
-    console.log('  → Configured .cursorrules for Cursor IDE');
+  if (!inRepo) {
+    console.error('Clone https://github.com/seoskillsai/seo-skills-ai and open that folder as your workspace.');
+    console.error('There is nothing to copy: skills load from the repository root.');
+    process.exit(1);
   }
-  if (agent === 'windsurf' || agent === 'all') {
-    console.log('  → Configured .windsurfrules for Windsurf IDE');
+  console.log(`Workspace already contains SEO Skills (detected AGENTS.md + skills/).`);
+  console.log(`Open this folder as the ${target || 'agent'} workspace. No extra install step is required.`);
+  process.exit(0);
+}
+
+function runPython(scriptName, scriptArgs = []) {
+  const scriptPath = path.join(repoRoot, 'scripts', scriptName);
+  const py = spawn('python', [scriptPath, ...scriptArgs], { stdio: 'inherit', cwd: repoRoot });
+  py.on('close', (code) => process.exit(code || 0));
+}
+
+if (!inRepo) {
+  console.error('Run this CLI from a clone of https://github.com/seoskillsai/seo-skills-ai');
+  process.exit(1);
+}
+
+if (action === 'doctor') {
+  runPython('doctor.py');
+} else if (action === 'setup') {
+  runPython('setup_runtime.py');
+} else if (action === 'audit') {
+  if (!target) {
+    console.error('Usage: audit <url>');
+    process.exit(1);
   }
-  if (agent === 'antigravity' || agent === 'all') {
-    console.log('  → Native AGY Skills active in .agent/skills/');
+  runPython('full_audit.py', [target]);
+} else if (action === 'fix') {
+  if (!target) {
+    console.error('Usage: fix <url>  (prints review-only patches; never writes the repo)');
+    process.exit(1);
   }
-  console.log(`\x1b[32m✔ Installation complete!\x1b[0m`);
+  runPython('remediation_engine.py', [target]);
+} else {
+  console.error(`Unknown command: ${action}`);
+  process.exit(1);
 }

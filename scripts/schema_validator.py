@@ -3,8 +3,11 @@
 SEO Skills AI — Enterprise 2026 Schema.org JSON-LD Deep Validator
 Validates JSON-LD structures, required property graphs, and strictly flags deprecated Google schema types.
 """
+import os
 import sys
 import json
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 DEPRECATED_TYPES = {
     "HowTo": "Google removed HowTo rich results globally in September 2023.",
@@ -93,6 +96,11 @@ if __name__ == "__main__":
         print("Usage: python schema_validator.py <json_string_or_file>")
         sys.exit(1)
     arg = sys.argv[1]
-    content = open(arg, "r", encoding="utf-8").read() if arg.endswith(".json") else arg
+    if arg.endswith(".json"):
+        from scripts.path_safety import resolve_workspace_path
+        path = resolve_workspace_path(arg, must_exist=True)
+        content = path.read_text(encoding="utf-8")
+    else:
+        content = arg
     res = validate_schema_json(content)
     print(json.dumps(res, indent=2))

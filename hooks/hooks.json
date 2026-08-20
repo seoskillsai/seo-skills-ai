@@ -1,11 +1,10 @@
 {
-  "description": "Quality gate hooks for schema validation and URL safety",
+  "description": "Optional post-write path check. Never applies patches. Does not interpolate unsanitized file paths into a shell.",
   "hooks": {
     "PostToolUse": [
       {
         "tool": "write_file",
-        "condition": "file.endsWith('.json') || file.endsWith('.astro') || file.endsWith('.html')",
-        "command": "python scripts/schema_validator.py {file}"
+        "command": "python scripts/hook_validate_write.py"
       }
     ]
   }

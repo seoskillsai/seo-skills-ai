@@ -1,0 +1,13 @@
+[project]
+name = "seoskillsai"
+version = "1.1.1"
+description = "Universal AI SEO agent skills, scripts, and MCP server."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "SEO Skills AI" }]
+urls = { Homepage = "https://seoskillsai.com", Repository = "https://github.com/seoskillsai/seo-skills-ai" }
+
+[project.optional-dependencies]
+browser = ["playwright>=1.40.0"]
+dev = ["pytest>=8.0.0"]

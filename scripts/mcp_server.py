@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """
 SEO Skills AI — Model Context Protocol (MCP) Server
+
+Network tools validate URLs with scripts/url_safety.py before fetching.
+This server never auto-approves tools; host configs must not set autoApprove
+for seo_audit / seo_drift. Patches are not applied from MCP.
 """
 import os
 import sys
@@ -14,23 +18,26 @@ if hasattr(sys.stdout, "reconfigure"):
 from scripts.full_audit import run_full_audit
 from scripts.schema_validator import validate_schema_json
 from scripts.drift_compare import compare_drift
-from scripts.llms_txt_builder import generate_llms_txt
+from scripts.url_safety import validate_url
+
+PROTOCOL_VERSION = "2024-11-05"
+SERVER_INFO = {"name": "seoskillsai", "version": "1.1.1"}
 
 TOOLS = [
     {
         "name": "seo_audit",
-        "description": "Run parallel full-site multi-agent AI SEO audit",
+        "description": "Run a full-site SEO audit. The URL must pass the network-target policy (public http/https only).",
         "inputSchema": {
             "type": "object",
             "properties": {
-                "url": {"type": "string", "description": "Target website URL"}
+                "url": {"type": "string", "description": "Public http(s) website URL"}
             },
             "required": ["url"]
         }
     },
     {
         "name": "seo_schema",
-        "description": "Validate 2026 Schema.org JSON-LD structured data",
+        "description": "Validate Schema.org JSON-LD structured data. Does not fetch URLs or write files.",
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -41,42 +48,87 @@ TOOLS = [
     },
     {
         "name": "seo_drift",
-        "description": "Compare live site against latest SQLite baseline to detect SEO regressions",
+        "description": "Compare a live public URL against the local SQLite baseline. URL must pass the network-target policy.",
         "inputSchema": {
             "type": "object",
             "properties": {
-                "url": {"type": "string", "description": "Target website URL"}
+                "url": {"type": "string", "description": "Public http(s) website URL"}
             },
             "required": ["url"]
         }
     }
 ]
 
+
+def _tool_error(req_id, message: str):
+    return {
+        "jsonrpc": "2.0",
+        "id": req_id,
+        "result": {
+            "content": [{"type": "text", "text": json.dumps({"error": message}, indent=2)}],
+            "isError": True,
+        },
+    }
+
+
+def _tool_text(req_id, payload) -> dict:
+    return {
+        "jsonrpc": "2.0",
+        "id": req_id,
+        "result": {"content": [{"type": "text", "text": json.dumps(payload, indent=2)}]},
+    }
+
+
+def _require_public_url(args: dict) -> str:
+    url = args.get("url")
+    if not isinstance(url, str) or not url.strip():
+        raise ValueError("url is required")
+    validate_url(url.strip(), role="navigation")
+    return url.strip()
+
+
 def handle_request(req):
     method = req.get("method")
     req_id = req.get("id")
 
+    if method == "initialize":
+        return {
+            "jsonrpc": "2.0",
+            "id": req_id,
+            "result": {
+                "protocolVersion": PROTOCOL_VERSION,
+                "capabilities": {"tools": {"listChanged": False}},
+                "serverInfo": SERVER_INFO,
+            },
+        }
+    if method == "notifications/initialized":
+        return None
+    if method == "ping":
+        return {"jsonrpc": "2.0", "id": req_id, "result": {}}
     if method == "tools/list":
         return {"jsonrpc": "2.0", "id": req_id, "result": {"tools": TOOLS}}
-    elif method == "tools/call":
+    if method == "tools/call":
         params = req.get("params", {})
         tool_name = params.get("name")
-        args = params.get("arguments", {})
+        args = params.get("arguments", {}) or {}
 
-        if tool_name == "seo_audit":
-            url = args.get("url")
-            res = run_full_audit(url)
-            return {"jsonrpc": "2.0", "id": req_id, "result": {"content": [{"type": "text", "text": json.dumps(res, indent=2)}]}}
-        elif tool_name == "seo_schema":
-            schema_json = args.get("schema_json")
-            res = validate_schema_json(schema_json)
-            return {"jsonrpc": "2.0", "id": req_id, "result": {"content": [{"type": "text", "text": json.dumps(res, indent=2)}]}}
-        elif tool_name == "seo_drift":
-            url = args.get("url")
-            res = compare_drift(url)
-            return {"jsonrpc": "2.0", "id": req_id, "result": {"content": [{"type": "text", "text": json.dumps(res, indent=2)}]}}
+        try:
+            if tool_name == "seo_audit":
+                url = _require_public_url(args)
+                return _tool_text(req_id, run_full_audit(url))
+            if tool_name == "seo_schema":
+                schema_json = args.get("schema_json")
+                return _tool_text(req_id, validate_schema_json(schema_json))
+            if tool_name == "seo_drift":
+                url = _require_public_url(args)
+                return _tool_text(req_id, compare_drift(url))
+        except (ValueError, PermissionError) as exc:
+            return _tool_error(req_id, str(exc))
+
+        return {"jsonrpc": "2.0", "id": req_id, "error": {"code": -32601, "message": "Method not found"}}
 
     return {"jsonrpc": "2.0", "id": req_id, "error": {"code": -32601, "message": "Method not found"}}
+
 
 def run_mcp_server():
     for line in sys.stdin:
@@ -85,12 +137,15 @@ def run_mcp_server():
         try:
             req = json.loads(line.strip())
             resp = handle_request(req)
+            if resp is None:
+                continue
             sys.stdout.write(json.dumps(resp) + "\n")
             sys.stdout.flush()
         except Exception as e:
             err_resp = {"jsonrpc": "2.0", "error": {"code": -32700, "message": str(e)}}
             sys.stdout.write(json.dumps(err_resp) + "\n")
             sys.stdout.flush()
+
 
 if __name__ == "__main__":
     run_mcp_server()

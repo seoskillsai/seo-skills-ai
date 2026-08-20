@@ -22,5 +22,6 @@ Before submitting a Pull Request, run:
 python scripts/portability_check.py
 python scripts/doctor.py
 python tests/run_all_tests.py
+python -m pytest tests -q
 ```
-All test suites must pass 100%.
+All test suites must pass. Catalog listing also requires the HOL plugin-scanner workflow (`.github/workflows/plugin-scan.yml`) to stay green: score ≥ 80/142 and no high/critical findings.

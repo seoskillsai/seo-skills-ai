@@ -119,7 +119,7 @@ class TestSEOSkillsAIEnterprise(unittest.TestCase):
         sample_text = """
         SEO Skills AI reduces token consumption by 92.5% compared to traditional crawlers.
         Using Google Antigravity and Gemini 2.5 Pro, audits run in 12s with $0.009 average cost.
-        Here is the code snippet: `npx @seoskillsai/cli run audit`.
+        Here is the code snippet: `python scripts/full_audit.py https://example.com`.
         """
         metrics = extract_entities_and_triples(sample_text)
         self.assertGreater(metrics["empirical_data_density_percentage"], 5.0)
@@ -148,6 +148,15 @@ class TestSEOSkillsAIEnterprise(unittest.TestCase):
         resp = handle_request(req)
         self.assertEqual(resp["jsonrpc"], "2.0")
         self.assertIn("tools", resp["result"])
+        init = handle_request({"jsonrpc": "2.0", "id": 2, "method": "initialize", "params": {}})
+        self.assertEqual(init["result"]["serverInfo"]["name"], "seoskillsai")
+        blocked = handle_request({
+            "jsonrpc": "2.0",
+            "id": 3,
+            "method": "tools/call",
+            "params": {"name": "seo_audit", "arguments": {"url": "http://127.0.0.1/"}},
+        })
+        self.assertTrue(blocked["result"].get("isError"))
 
 if __name__ == "__main__":
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(TestSEOSkillsAIEnterprise)

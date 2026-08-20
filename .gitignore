@@ -28,6 +28,7 @@ credentials.json
 *.key
 config/credentials.json
 config/bing_accounts.json
+config/deployment-local.json
 
 # Local Databases & Drift Snapshots
 *.db

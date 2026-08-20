@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-SEO Skills AI — Automated Code Remediation & Patch Generator
-Generates exact copy-paste code patches and Git diffs to fix detected SEO issues in under 10 seconds.
+SEO Skills AI — Review-only code remediation snippets
+Prints copy-paste HTML/Astro patches. Never writes the repository and has no --apply mode.
 """
 import os
 import sys
@@ -14,6 +14,11 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 from scripts.full_audit import run_full_audit
+
+APPLY_REFUSED = (
+    "Patches are generated for human review only. This tool never writes them "
+    "into your repository and there is no --apply mode. Copy snippets after you inspect them."
+)
 
 def generate_remediation_patches(url: str) -> dict:
     audit = run_full_audit(url)
@@ -82,13 +87,20 @@ def generate_remediation_patches(url: str) -> dict:
         "health_score_before": audit["health_score"],
         "projected_health_score_after": min(100, audit["health_score"] + 28),
         "total_patches_generated": len(patches),
+        "apply_mode": "review_only",
+        "notice": APPLY_REFUSED,
         "patches": patches
     }
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
+    if "--apply" in sys.argv:
+        print(APPLY_REFUSED, file=sys.stderr)
+        sys.exit(2)
+    args = [a for a in sys.argv[1:] if a != "--apply"]
+    if not args:
         print("Usage: python remediation_engine.py <url>")
+        print(APPLY_REFUSED)
         sys.exit(1)
-    target = sys.argv[1]
+    target = args[0]
     res = generate_remediation_patches(target)
     print(json.dumps(res, indent=2))

@@ -1,14 +1,27 @@
 #!/usr/bin/env python3
 """
 SEO Skills AI — Google PageSpeed Insights v5 & Lighthouse Runner
+User URL is validated before it is sent to Google's API. Failures are returned
+as errors — scores are never invented.
 """
+import os
 import sys
 import json
 import urllib.request
 from urllib.parse import quote
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from scripts.url_safety import validate_url
+
+
 def run_pagespeed_check(url: str, strategy: str = "mobile", api_key: str = None) -> dict:
-    encoded_url = quote(url)
+    try:
+        validate_url(url)
+    except (ValueError, PermissionError) as exc:
+        return {"url": url, "strategy": strategy, "status": "BLOCKED", "error": str(exc)}
+
+    encoded_url = quote(url, safe="")
     endpoint = f"https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url={encoded_url}&strategy={strategy}"
     if api_key:
         endpoint += f"&key={api_key}"
@@ -24,6 +37,7 @@ def run_pagespeed_check(url: str, strategy: str = "mobile", api_key: str = None)
             return {
                 "url": url,
                 "strategy": strategy,
+                "status": "SUCCESS",
                 "scores": {
                     "performance": int(categories.get("performance", {}).get("score", 0) * 100),
                     "accessibility": int(categories.get("accessibility", {}).get("score", 0) * 100),
@@ -40,26 +54,12 @@ def run_pagespeed_check(url: str, strategy: str = "mobile", api_key: str = None)
                 }
             }
     except Exception as e:
-        # Graceful fallback heuristic when rate-limited or offline
         return {
             "url": url,
             "strategy": strategy,
-            "mode": "FALLBACK_HEURISTIC",
-            "scores": {
-                "performance": 96,
-                "accessibility": 98,
-                "best_practices": 100,
-                "seo": 100
-            },
-            "core_web_vitals": {
-                "lcp": "1.2 s",
-                "cls": "0.01",
-                "inp": "65 ms",
-                "fcp": "0.8 s",
-                "speed_index": "1.1 s",
-                "total_blocking_time": "15 ms"
-            },
-            "notice": f"Live API check deferred ({e}). High-fidelity heuristic scores returned."
+            "status": "UNAVAILABLE",
+            "error": str(e),
+            "notice": "PageSpeed Insights did not return live scores. No heuristic fallback is used."
         }
 
 if __name__ == "__main__":
@@ -70,3 +70,5 @@ if __name__ == "__main__":
     strat = sys.argv[2] if len(sys.argv) > 2 else "mobile"
     res = run_pagespeed_check(target, strategy=strat)
     print(json.dumps(res, indent=2))
+    if res.get("status") != "SUCCESS":
+        sys.exit(1)

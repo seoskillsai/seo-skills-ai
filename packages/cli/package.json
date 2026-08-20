@@ -1,6 +1,6 @@
 {
   "name": "@seoskillsai/cli",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "One-click 12-agent installer for SEO Skills: Universal AI SEO Agent & Technical Optimization Suite.",
   "bin": {
     "seoskills": "./index.js"

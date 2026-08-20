@@ -7,14 +7,13 @@ import sys
 import time
 import urllib.request
 import urllib.error
-from urllib.parse import urlparse, urljoin
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-from scripts.url_safety import validate_url
+from scripts.url_safety import validate_url, validate_redirect
 
 USER_AGENTS = {
     "desktop": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -29,6 +28,10 @@ class RedirectTracker(urllib.request.HTTPRedirectHandler):
         self.redirect_chain = []
 
     def redirect_request(self, req, fp, code, msg, headers, newurl):
+        try:
+            validate_redirect(req.full_url, newurl)
+        except (ValueError, PermissionError) as exc:
+            raise urllib.error.URLError(str(exc)) from exc
         self.redirect_chain.append({
             "status_code": code,
             "from_url": req.full_url,
@@ -36,8 +39,28 @@ class RedirectTracker(urllib.request.HTTPRedirectHandler):
         })
         return super().redirect_request(req, fp, code, msg, headers, newurl)
 
+def _blocked_result(url: str, error: str) -> dict:
+    return {
+        "url": url,
+        "final_url": url,
+        "is_redirected": False,
+        "redirect_chain": [],
+        "redirect_count": 0,
+        "status_code": 0,
+        "latency_ms": 0,
+        "headers": {},
+        "html": "",
+        "size_bytes": 0,
+        "error": error,
+        "security_headers": {}
+    }
+
+
 def fetch_page(url: str, ua_type: str = "desktop", timeout: int = 15) -> dict:
-    validate_url(url)
+    try:
+        validate_url(url)
+    except (ValueError, PermissionError) as exc:
+        return _blocked_result(url, str(exc))
     ua = USER_AGENTS.get(ua_type, USER_AGENTS["desktop"])
     headers = {
         "User-Agent": ua,

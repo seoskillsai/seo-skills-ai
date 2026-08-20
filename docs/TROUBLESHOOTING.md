@@ -16,7 +16,8 @@ Common environment scenarios and solutions.
 
 ### Localhost / Cloud Metadata Warning
 - **Symptom:** `Security Alert: Target host resolves to private/prohibited IP...`
-- **Solution:** `scripts/url_safety.py` protects against SSRF by blocking loopback (`127.0.0.0/8`), private networks (`10.0.0.0/8`, `192.168.0.0/16`), and AWS metadata (`169.254.169.254`). Audits must target public HTTP/HTTPS URLs.
+- **Cause:** `scripts/url_safety.py` blocks loopback, private networks, link-local, and cloud metadata, and re-checks redirect targets. Playwright navigation uses the same policy.
+- **Solution:** Audit public `http`/`https` URLs only. Optional allowlist: `SEOSKILLS_ALLOWED_HOSTS`. Generated files stay under `SEOSKILLS_OUT_DIR` (default: the working directory).
 
 ---
 

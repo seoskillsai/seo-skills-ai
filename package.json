@@ -1,6 +1,6 @@
 {
   "name": "seoskillsai",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "SEO Skills: Universal AI SEO Agent and Technical Optimization Suite across Claude Code, Antigravity, Cursor, Windsurf, Copilot, ChatGPT, and Cline.",
   "main": "bin/seoskills",
   "bin": {
@@ -44,6 +44,6 @@
   "homepage": "https://seoskillsai.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/seoskillsai/seo-skills.git"
+    "url": "https://github.com/seoskillsai/seo-skills-ai.git"
   }
 }

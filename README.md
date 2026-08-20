@@ -7,7 +7,8 @@
 ![SEO Skills AI Universal Multi-Agent Standard](assets/banner.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Tests Passing](https://img.shields.io/badge/tests-12%20suites%20%7C%20100%25%20passing-brightgreen)](tests/)
+[![CI](https://github.com/seoskillsai/seo-skills-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/seoskillsai/seo-skills-ai/actions/workflows/ci.yml)
+[![Plugin Scanner](https://github.com/seoskillsai/seo-skills-ai/actions/workflows/plugin-scan.yml/badge.svg)](https://github.com/seoskillsai/seo-skills-ai/actions/workflows/plugin-scan.yml)
 [![Universal Agents](https://img.shields.io/badge/Agents-Claude%20%7C%20Antigravity%20%7C%20Cursor%20%7C%20ChatGPT%20%7C%20Windsurf%20%7C%20Copilot-blue)](AGENTS.md)
 [![Open Spec](https://img.shields.io/badge/Spec-Agent%20Skills%20Standard-purple)](skills/)
 [![Documentation](https://img.shields.io/badge/Portal-seoskillsai.com-cyan)](https://seoskillsai.com)
@@ -49,45 +50,41 @@ Resolving technical debt, deprecated schemas, and thin content to recover decayi
 
 ---
 
-## ⚡ 1-Click Installation Across All AI Agents
+## Installation
 
-### Install for All AI Agents (Universal Mode)
+Clone the repository and open it as the agent workspace. The npm package `@seoskillsai/cli` is **not published**; do not run `npx @seoskillsai/cli`.
+
 ```bash
-npx @seoskillsai/cli add all
+git clone https://github.com/seoskillsai/seo-skills-ai.git
+cd seo-skills-ai
 ```
 
-### Install for Specific Agent Harnesses
+Unix / macOS:
+
 ```bash
-# Anthropic Claude Code CLI
-/plugin marketplace add seoskillsai/seo-skills
+bash install.sh
+```
+
+Windows (PowerShell):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install.ps1
+```
+
+Then point Claude Code, Cursor, Antigravity, Windsurf, Codex, or Cline at this folder. Skills load from `skills/`. Optional Playwright Chromium is installed by `install.sh` / `install.ps1` for screenshots.
+
+### Claude Code CLI
+
+```text
+/plugin marketplace add seoskillsai/seo-skills-ai
 /plugin install seo-skills@seoskillsai-seo-skills
 /seo setup
 /seo doctor
-
-# Google Antigravity & Gemini CLI (Native Discovery)
-npx @seoskillsai/cli add antigravity
-
-# Cursor IDE (.cursorrules)
-npx @seoskillsai/cli add cursor
-
-# Windsurf Cascade (.windsurfrules)
-npx @seoskillsai/cli add windsurf
-
-# GitHub Copilot & VS Code Cline (MCP Config)
-npx @seoskillsai/cli add cline
 ```
 
-### Manual Installation (Unix / macOS / Windows)
-```bash
-# Clone repository
-git clone https://github.com/seoskillsai/seo-skills.git
+### Cline / Roo MCP
 
-# Linux / macOS
-bash seo-skills/install.sh
-
-# Windows (PowerShell)
-powershell -ExecutionPolicy Bypass -File seo-skills\install.ps1
-```
+Copy `config/cline_mcp_settings.json` into your Cline MCP settings. Tools are **not** auto-approved; the host must confirm `seo_audit` and `seo_drift` because they fetch the URL you pass.
 
 ---
 
@@ -102,7 +99,7 @@ Traditional SEO auditing tools (such as standalone browser extensions or single-
 | **Agent Ecosystem** | Claude Code only | **100% Universal** (Claude, Antigravity, Cursor, Windsurf, Copilot, ChatGPT, Cline, Aider) |
 | **Semantic SEO Framework** | Surface keyword density checklists | **Holistic Semantic SEO** (EAV modeling, 800+ word educational prose, directional PageRank conduits) |
 | **Information Gain Scoring** | ❌ None (Generic advice) | **Google Patent US 11,562,019 B2 Engine** (`scripts/information_gain.py` scoring empirical data density & novelty) |
-| **Code Remediation** | Text recommendations only | **Automated Drop-In Remediation Generator** (`scripts/remediation_engine.py` generating instant HTML/Astro diff patches) |
+| **Code Remediation** | Text recommendations only | **Review-only patch generator** (`scripts/remediation_engine.py` prints HTML/Astro snippets; it never writes or `git apply`s them) |
 | **Recursive Site Crawler** | Single-page checks only | **Multi-Page Async Site Crawler** (`scripts/site_crawler.py` mapping depth, orphan pages, & sitewide anchor distributions) |
 | **2026 Schema Validation** | Deprecated types (`HowTo`, `FAQPage`) | **Strict 2026 Google Compliance** (Nested `@graph`, zero deprecated types, deep required property validation) |
 | **Google Discover & Media RSS** | ❌ None | **Discover Image SEO** (`max-image-preview:large` + Media RSS `<media:content>` 1200px feeds + AI Editorial Bylines) |
@@ -130,7 +127,7 @@ Every command in SEO Skills can be executed directly from your terminal CLI or i
 - `/seo technical <url>`: Comprehensive 9-category technical audit (Core Web Vitals INP/LCP/CLS, HTTP security headers, canonical loops, redirect chains, SPA hydration markers).
 - `/seo crawl <url> [max_pages]`: Recursive multi-page site crawler mapping internal PageRank link graphs, crawl depth distribution ($\le 2$ clicks), and orphan pages.
 - `/seo drift <url>`: SQLite on-page baseline snapshotting and 17-rule regression comparator to detect deployment code regressions.
-- `/seo fix <url>`: Automated code patch generator outputting drop-in HTML, Astro, and Next.js remediation diffs.
+- `/seo fix <url>`: Prints HTML/Astro remediation snippets for **review**. Does not modify the repository.
 
 ### Semantic Content & Topical Authority (Semantic SEO Standard)
 - `/seo content <url>`: Holistic semantic content audit applying Entity-Attribute-Value (EAV) modeling and anti-thin educational prose validation ($800+$ words).
@@ -196,18 +193,23 @@ SEO Skills is founded upon the **Topical Authority & Semantic SEO Standard**, pr
 
 ---
 
-## 🛡️ Enterprise Security & Privacy Guarantees
+## Security & Privacy
 
-- **Zero Telemetry / 100% Local Execution:** All audits, SQLite baselines, and reports run entirely on your local machine. No website data, analytics, or target URLs are transmitted to third-party tracking servers.
-- **SSRF & Network Boundary Protection:** Every network request is validated by `scripts/url_safety.py` to prevent Server-Side Request Forgery (SSRF), loopback scans (`127.0.0.1`), and AWS/Cloud metadata probing (`169.254.169.254`).
-- **Isolated Virtual Environments:** Python dependencies execute within an isolated virtual environment (`~/.config/seoskillsai/venv`) to ensure zero global package pollution.
-- **Secure Credential Vault:** API credentials reside strictly in `~/.config/seoskillsai/credentials.json` with `0o600` POSIX permissions and are ignored by Git.
+- **No product telemetry:** Audits and SQLite baselines stay on your machine. SEO Skills AI does not send analytics to seoskillsai.com.
+- **Network-target policy:** User-supplied URLs go through `scripts/url_safety.py` (scheme, DNS fail-closed, private/metadata IP block, **redirect re-check**). Optional allowlist: `SEOSKILLS_ALLOWED_HOSTS`. Headless Chromium uses the same policy for navigation and blocks private-IP subresources.
+- **Repo scope:** Generated files stay under `SEOSKILLS_OUT_DIR` (default: cwd). Remediation patches are review-only.
+- **MCP:** Shipped Cline config does not `autoApprove` fetch tools.
+- **Optional vendor APIs:** PageSpeed, CrUX, RDAP, IndexNow, and MCP extensions send the URL you asked to audit to those vendors when you run those commands.
+- **Credentials:** Optional keys in `~/.config/seoskillsai/` with `0o600` permissions, gitignored.
+
+See [SECURITY.md](SECURITY.md).
 
 ---
 
 ## 📚 Knowledge Databases & References
 
 Explore our comprehensive reference library directly inside the repository:
+- [Deployment map (`docs/DEPLOYMENT.md`)](./docs/DEPLOYMENT.md)
 - [Google Algorithm Updates Database (`data/google-updates.json`)](./data/google-updates.json)
 - [2026 Active Schema.org Catalog (`skills/seo-schema/references/schema-types-2026.md`)](./skills/seo-schema/references/schema-types-2026.md)
 - [Deprecated Schema Migration Guide (`skills/seo-schema/references/deprecated-types-guide.md`)](./skills/seo-schema/references/deprecated-types-guide.md)
@@ -222,5 +224,5 @@ Explore our comprehensive reference library directly inside the repository:
 SEO Skills AI is released under the **MIT License** — free forever for personal, consultant, agency, and enterprise commercial use.
 
 - **Web Portal & Documentation:** [seoskillsai.com](https://seoskillsai.com)
-- **GitHub Repository:** [github.com/seoskillsai/seo-skills](https://github.com/seoskillsai/seo-skills)
-- **Community Issues & Discussions:** [GitHub Issues](https://github.com/seoskillsai/seo-skills/issues)
+- **GitHub Repository:** [github.com/seoskillsai/seo-skills-ai](https://github.com/seoskillsai/seo-skills-ai)
+- **Community Issues:** [GitHub Issues](https://github.com/seoskillsai/seo-skills-ai/issues)

@@ -16,5 +16,5 @@
 | `/seo google [cmd]` | `seo-google` | Google Search Console, CrUX 25-week history, Indexing API |
 | `/seo backlinks <url>` | `seo-backlinks` | Free Common Crawl, Moz, and Bing backlink profile audit |
 | `/seo cluster <seed>` | `seo-cluster` | SERP-overlap keyword and topic clustering |
-| `/seo setup` | Master Setup | Provision isolated Python virtualenv runtime |
-| `/seo doctor` | Diagnostic | Verify environment health and Playwright readiness |
+| `/seo setup` | Master Setup | Initialize local SQLite drift database (`install.sh` installs the optional venv + Playwright) |
+| `/seo doctor` | Diagnostic | Verify Python, SQLite, skills, and optional Playwright |

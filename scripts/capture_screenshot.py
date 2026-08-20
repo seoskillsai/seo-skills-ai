@@ -1,37 +1,77 @@
 #!/usr/bin/env python3
 """
-SEO Skills AI — Playwright Headless Screenshot Renderer & Centerpiece Visual Validator
+SEO Skills AI — Playwright Headless Screenshot Renderer
+Navigation and subresource requests go through the network-target policy.
+Screenshots are written only inside the workspace (SEOSKILLS_OUT_DIR / cwd).
 """
-import sys
 import json
 import os
-from pathlib import Path
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from scripts.path_safety import prepare_output_file
+from scripts.url_safety import is_request_allowed, validate_url
+
 
 def capture_page_screenshot(url: str, output_path: str = "screenshot.png", viewport_mode: str = "desktop") -> dict:
     dim = {"width": 1920, "height": 1080} if viewport_mode == "desktop" else {"width": 390, "height": 844}
-    
+
+    try:
+        validate_url(url, role="navigation")
+        dest = prepare_output_file(output_path)
+    except (ValueError, PermissionError, OSError) as exc:
+        return {
+            "url": url,
+            "output_path": str(output_path),
+            "viewport": dim,
+            "status": "BLOCKED",
+            "message": str(exc),
+        }
+
     try:
         from playwright.sync_api import sync_playwright
+    except ImportError as e:
+        return {
+            "url": url,
+            "output_path": str(dest),
+            "viewport": dim,
+            "status": "PLAYWRIGHT_UNAVAILABLE",
+            "message": f"Playwright is not installed ({e}). Run install.sh / install.ps1 for Chromium.",
+        }
+
+    try:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
             page = browser.new_page(viewport=dim)
+
+            def enforce_network_policy(route):
+                request_url = route.request.url
+                role = "navigation" if route.request.is_navigation_request() else "subresource"
+                if is_request_allowed(request_url, role=role):
+                    route.continue_()
+                else:
+                    route.abort("blockedbyclient")
+
+            page.route("**/*", enforce_network_policy)
             page.goto(url, timeout=30000, wait_until="networkidle")
-            page.screenshot(path=output_path, full_page=False)
+            page.screenshot(path=str(dest), full_page=False)
             browser.close()
             return {
                 "url": url,
-                "output_path": output_path,
+                "output_path": str(dest),
                 "viewport": dim,
-                "status": "CAPTURED"
+                "status": "CAPTURED",
             }
     except Exception as e:
         return {
             "url": url,
-            "output_path": output_path,
+            "output_path": str(dest),
             "viewport": dim,
-            "status": "PLAYWRIGHT_DEFERRED",
-            "message": f"Playwright capture deferred ({e}). Viewport inspection logged."
+            "status": "PLAYWRIGHT_FAILED",
+            "message": str(e),
         }
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -41,3 +81,5 @@ if __name__ == "__main__":
     out = sys.argv[2] if len(sys.argv) > 2 else "screenshot.png"
     res = capture_page_screenshot(target, output_path=out)
     print(json.dumps(res, indent=2))
+    if res.get("status") in ("BLOCKED", "PLAYWRIGHT_FAILED"):
+        sys.exit(1)

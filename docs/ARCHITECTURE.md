@@ -3,7 +3,7 @@
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                           DIRECTIVE LAYER (SKILLS)                          │
-│   25+ Standardized SKILL.md modules (Technical, EAV Content, Schema, GEO)   │
+│   27 Standardized SKILL.md modules (Technical, EAV Content, Schema, GEO)   │
 └──────────────────────────────────────┬──────────────────────────────────────┘
                                        │ Dispatches
                                        ▼

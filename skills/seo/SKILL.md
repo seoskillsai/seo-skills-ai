@@ -1,6 +1,6 @@
 ---
 name: seo
-description: "Master AI SEO Orchestrator. Coordinates 25 sub-skills and 18 specialist agents across technical SEO, Topical Semantic semantic content, 2026 schema, llms.txt, Discover RSS, drift monitoring, and backlinks."
+description: "Master AI SEO Orchestrator. Coordinates 27 sub-skills and 18 specialist agents across technical SEO, Topical Semantic semantic content, 2026 schema, llms.txt, Discover RSS, drift monitoring, and backlinks."
 ---
 
 # Master AI SEO Orchestrator — Universal Standard

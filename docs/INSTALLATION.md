@@ -1,46 +1,30 @@
 # Installation & Setup Guide: SEO Skills AI
 
-SEO Skills AI supports instant one-click installation across all modern AI coding harnesses.
+Clone the public repository and open that folder as the agent workspace.
+
+```bash
+git clone https://github.com/seoskillsai/seo-skills-ai.git
+cd seo-skills-ai
+```
+
+Unix / macOS: `bash install.sh`  
+Windows: `powershell -ExecutionPolicy Bypass -File .\install.ps1`
+
+`install.sh` / `install.ps1` create `~/.config/seoskillsai/venv` and install optional Playwright Chromium. `/seo setup` only initializes the local SQLite drift database. `/seo doctor` checks Python, SQLite, skills, and reports Playwright as optional.
+
+The npm package `@seoskillsai/cli` is not published.
 
 ---
 
-## 1. Quick Installation by Agent Environment
+## Claude Code CLI
 
-### Anthropic Claude Code CLI
-```bash
-/plugin marketplace add seoskillsai/seo-skills
+```text
+/plugin marketplace add seoskillsai/seo-skills-ai
 /plugin install seo-skills@seoskillsai-seo-skills
 /seo setup
 /seo doctor
 ```
 
-### Google Antigravity & Gemini CLI
-Point Antigravity to the repository workspace or run:
-```bash
-npx @seoskillsai/cli add antigravity
-```
+## Other harnesses
 
-### Cursor IDE
-Install into `.cursorrules` with:
-```bash
-npx @seoskillsai/cli add cursor
-```
-
-### Windsurf IDE (Codeium Cascade)
-```bash
-npx @seoskillsai/cli add windsurf
-```
-
----
-
-## 2. Manual Installation (Unix / macOS / Linux)
-```bash
-git clone https://github.com/seoskillsai/seo-skills.git
-bash seo-skills/install.sh
-```
-
-## 3. Manual Installation (Windows PowerShell)
-```powershell
-git clone https://github.com/seoskillsai/seo-skills.git
-powershell -ExecutionPolicy Bypass -File seo-skills\install.ps1
-```
+Point Antigravity, Cursor, Windsurf, Codex, or Cline at the cloned repository root. `AGENTS.md`, `.cursorrules`, `.windsurfrules`, and `skills/` load from that root.

@@ -1,29 +1,38 @@
 #!/usr/bin/env python3
 """
 SEO Skills AI — Moz Link Explorer API Client
-Fetches Domain Authority (DA), Page Authority (PA), spam scores, and referring domain metrics.
+Returns live data only when Moz credentials are provided.
 """
+import os
 import sys
 import json
-import urllib.request
 from urllib.parse import urlparse
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from scripts.url_safety import normalize_user_url, validate_url
+
+
 def query_moz_api(target_url: str, access_id: str = None, secret_key: str = None) -> dict:
-    domain = urlparse(target_url).netloc or target_url
+    url = normalize_user_url(target_url)
+    try:
+        validate_url(url)
+    except (ValueError, PermissionError) as exc:
+        return {"target": target_url, "status": "BLOCKED", "error": str(exc)}
+
+    domain = urlparse(url).netloc or target_url
+    if not access_id or not secret_key:
+        return {
+            "target": url,
+            "domain": domain,
+            "status": "UNAVAILABLE",
+            "notice": "Moz API credentials were not provided. No estimated DA/PA values are returned.",
+        }
     return {
-        "target": target_url,
+        "target": url,
         "domain": domain,
-        "domain_authority": 52,
-        "page_authority": 44,
-        "spam_score": 1,
-        "total_external_links": 4820,
-        "root_domains_to_root_domain": 310,
-        "top_anchor_texts": [
-            {"anchor": domain, "count": 84, "percentage": "27.1%"},
-            {"anchor": "ai seo skills", "count": 32, "percentage": "10.3%"},
-            {"anchor": "learn more", "count": 18, "percentage": "5.8%"}
-        ],
-        "status": "SUCCESS"
+        "status": "UNAVAILABLE",
+        "notice": "Moz signed requests are not implemented in this open runtime. Use the official Moz API client with your own credentials.",
     }
 
 if __name__ == "__main__":

@@ -7,6 +7,10 @@ import os
 import sys
 import datetime
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from scripts.path_safety import prepare_output_file
+
 def build_media_rss(channel_title: str, channel_link: str, items: list, output_path: str = "public/feed.xml"):
     now_rfc822 = datetime.datetime.now(datetime.timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")
     
@@ -44,10 +48,10 @@ def build_media_rss(channel_title: str, channel_link: str, items: list, output_p
     xml += """  </channel>
 </rss>
 """
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    with open(output_path, "w", encoding="utf-8") as f:
+    dest = prepare_output_file(output_path)
+    with open(dest, "w", encoding="utf-8") as f:
         f.write(xml)
-    return output_path
+    return str(dest)
 
 if __name__ == "__main__":
     sample_items = [

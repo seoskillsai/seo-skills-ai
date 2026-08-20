@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 SEO Skills AI — Domain Age, RDAP Registration & Expired Domain Heritage Analyzer
-Audits domain longevity, registrar history, and flags expired-domain drop-catch risk.
 """
 import os
 import sys
@@ -14,39 +13,41 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-def query_domain_heritage(domain_or_url: str) -> dict:
-    parsed = urlparse(domain_or_url)
-    domain = parsed.netloc or domain_or_url
-    domain = domain.split(":")[0].strip()
+from scripts.url_safety import normalize_user_url, validate_url
 
-    # Query ICANN RDAP standard API
+
+def query_domain_heritage(domain_or_url: str) -> dict:
+    parsed = urlparse(normalize_user_url(domain_or_url))
+    domain = (parsed.hostname or domain_or_url).split(":")[0].strip().lower()
+    try:
+        validate_url(f"https://{domain}/")
+    except (ValueError, PermissionError) as exc:
+        return {"domain": domain, "status": "BLOCKED", "error": str(exc)}
+
     rdap_url = f"https://rdap.org/domain/{domain}"
-    req = urllib.request.Request(rdap_url, headers={"User-Agent": "SEOSkillsAI-RDAP/1.0", "Accept": "application/json"})
-    
+    req = urllib.request.Request(
+        rdap_url,
+        headers={"User-Agent": "SEOSkillsAI-RDAP/1.0", "Accept": "application/json"},
+    )
+
     try:
         with urllib.request.urlopen(req, timeout=8) as resp:
             data = json.loads(resp.read().decode("utf-8"))
             events = {e.get("eventAction"): e.get("eventDate") for e in data.get("events", [])}
-            registration_date = events.get("registration", "Unknown")
-            expiration_date = events.get("expiration", "Unknown")
-            last_changed = events.get("last changed", "Unknown")
-
             return {
                 "domain": domain,
                 "status": "VERIFIED_RDAP",
-                "registration_date": registration_date,
-                "expiration_date": expiration_date,
-                "last_changed": last_changed,
-                "heritage_risk": "LOW (Established Registration Record)",
+                "registration_date": events.get("registration", "Unknown"),
+                "expiration_date": events.get("expiration", "Unknown"),
+                "last_changed": events.get("last changed", "Unknown"),
                 "source": "ICANN RDAP Protocol"
             }
     except Exception as e:
         return {
             "domain": domain,
-            "status": "HEURISTIC_ACTIVE",
-            "registration_date": "2024-01-15T00:00:00Z",
-            "heritage_risk": "LOW (Active Web Property)",
-            "notice": f"RDAP query deferred ({e}). Heuristic domain profile returned."
+            "status": "UNAVAILABLE",
+            "error": str(e),
+            "notice": "RDAP query failed. No heuristic registration date is invented.",
         }
 
 if __name__ == "__main__":

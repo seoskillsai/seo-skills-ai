@@ -8,7 +8,7 @@ import path from 'node:path';
 const args = process.argv.slice(2);
 const command = args[0] || 'help';
 
-console.log(`\x1b[36m[SEO Skills AI]\x1b[0m Universal Multi-Agent CLI v1.1.0`);
+console.log(`\x1b[36m[SEO Skills AI]\x1b[0m Universal Multi-Agent CLI v1.1.1`);
 
 if (command === 'help' || command === '--help' || command === '-h') {
   console.log(`

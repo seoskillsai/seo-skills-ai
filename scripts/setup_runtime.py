@@ -11,7 +11,8 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 def setup():
-    print("==> [SEO Skills AI Setup] Provisioning isolated runtime...")
+    print("==> [SEO Skills AI Setup] Provisioning local config (SQLite drift DB).")
+    print("    Python venv + Playwright Chromium are installed by install.sh / install.ps1, not this script.")
     config_dir = Path.home() / ".config" / "seoskillsai"
     config_dir.mkdir(parents=True, exist_ok=True)
 

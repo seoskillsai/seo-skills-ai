@@ -7,6 +7,10 @@ import json
 import os
 import datetime
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from scripts.path_safety import prepare_output_file
+
 def generate_html_report(audit_data: dict, output_path: str = "audit_report.html") -> str:
     url = audit_data.get("url", "https://example.com")
     health_score = audit_data.get("health_score", 85)
@@ -77,9 +81,10 @@ def generate_html_report(audit_data: dict, output_path: str = "audit_report.html
 </body>
 </html>"""
     
-    with open(output_path, "w", encoding="utf-8") as f:
+    dest = prepare_output_file(output_path)
+    with open(dest, "w", encoding="utf-8") as f:
         f.write(html)
-    return output_path
+    return str(dest)
 
 if __name__ == "__main__":
     sample_audit = {
