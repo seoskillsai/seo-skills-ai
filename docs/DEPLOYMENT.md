@@ -43,7 +43,6 @@ Real tokens live only in gitignored files:
 | `config/credentials.example.json` | Shape only; placeholder token |
 | `~/.config/seoskillsai/credentials.json` | Same map on the user machine |
 | `~/.config/seoskillsai/google_credentials.json` | GSC/GA4 OAuth (mode 0o600) |
-| `config/google_credentials.example.json` | Shape only |
 | `config/deployment-local.json` | Local ops log (gitignored) |
 
 Copy the example, then paste a PAT locally:

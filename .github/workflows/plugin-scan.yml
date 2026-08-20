@@ -18,7 +18,42 @@ jobs:
         with:
           persist-credentials: false
       - uses: hashgraph-online/ai-plugin-scanner-action@b402d3b3aaa8f59df8e8aa427dc97694a0af2819 # v1.2.528
+        id: scan
+        continue-on-error: true
         with:
           plugin_dir: "."
           min_score: 80
           fail_on_severity: high
+          format: json
+          output: plugin-scan.json
+      - name: Print high findings
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("plugin-scan.json")
+          if not p.exists():
+              print("plugin-scan.json missing")
+              raise SystemExit(0)
+          data = json.loads(p.read_text(encoding="utf-8"))
+          def walk(obj, acc):
+              if isinstance(obj, dict):
+                  sev = str(obj.get("severity") or obj.get("level") or "").lower()
+                  if sev in {"high", "critical", "medium"}:
+                      acc.append(obj)
+                  for v in obj.values():
+                      walk(v, acc)
+              elif isinstance(obj, list):
+                  for i in obj:
+                      walk(i, acc)
+          hits = []
+          walk(data, hits)
+          print("structured_hits", len(hits))
+          for h in hits[:20]:
+              keep = {k: h.get(k) for k in ("severity","title","message","file","path","filename","rule_id","description","location") if k in h}
+              print(json.dumps(keep or {k:h.get(k) for k in list(h)[:8]}, default=str)[:1000])
+          PY
+      - name: Fail if scanner step failed
+        if: steps.scan.outcome == 'failure'
+        run: exit 1

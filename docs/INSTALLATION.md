@@ -1,22 +1,19 @@
 # Installation & Setup Guide: SEO Skills AI
 
-## Option A — npm CLI
-
-```bash
-npx @seoskillsai/cli add cursor
-```
-
-Copies `skills/`, `scripts/`, `AGENTS.md`, `.cursorrules`, and plugin manifests from the `@seoskillsai/cli` tarball into the current directory. Then open that folder as the agent workspace.
-
-## Option B — git clone
+## Option A — git clone (works today)
 
 ```bash
 git clone https://github.com/seoskillsai/seo-skills-ai.git
 cd seo-skills-ai
+node packages/cli/index.mjs add cursor
 ```
 
 Unix / macOS: `bash install.sh`  
 Windows: `powershell -ExecutionPolicy Bypass -File .\install.ps1`
+
+## Option B — npm (`@seoskillsai/cli`)
+
+The package metadata and `files` list are ready so `npx @seoskillsai/cli add cursor` copies skills from the tarball. **It is not published** until an npm automation token is stored in gitignored `~/.config/seoskillsai/` (or `npm login`). Do not advertise `npx` until `npm view @seoskillsai/cli version` succeeds.
 
 `install.sh` / `install.ps1` create `~/.config/seoskillsai/venv` and install optional Playwright Chromium. `/seo setup` only initializes the local SQLite drift database. `/seo doctor` checks Python, SQLite, skills, and reports Playwright as optional.
 
@@ -28,7 +25,7 @@ This plugin does **not** include Google Cloud client IDs or anyone else's analyt
 
 1. In Google Cloud Console, create an OAuth **Desktop** client.
 2. Enable Search Console API and Google Analytics Data API.
-3. Copy `config/google_credentials.example.json` to `~/.config/seoskillsai/google_credentials.json`.
+3. Create `~/.config/seoskillsai/google_credentials.json` (mode `0o600`) with `client_id`, `client_secret`, `refresh_token`, and optional `ga4_property_id`. Do not commit this file.
 4. Run `python scripts/google_oauth.py --setup` (copy-paste authorization code). The file is written mode `0o600`.
 
 **Scopes**
