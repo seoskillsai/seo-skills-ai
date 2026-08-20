@@ -6,7 +6,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from scripts.google_oauth import get_tier_status, setup_interactive
+from scripts.google_installed_app import get_tier_status, setup_interactive
 
 if __name__ == "__main__":
     if "--setup" in sys.argv:

@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Playwright: `should_abort_request` for private-IP subresources; document `SEOSKILLS_STRICT_BROWSER=1`.
 
 ### Added
-- Real Google Search Console Search Analytics and GA4 Data API organic sessions via `~/.config/seoskillsai/google_credentials.json` (`scripts/google_oauth.py`).
+- Real Google Search Console Search Analytics and GA4 Data API organic sessions via `~/.config/seoskillsai/google_credentials.json` (`scripts/google_installed_app.py`).
 - First-party HTTP for DataForSEO, Firecrawl scrape, and Bing Webmaster metrics.
 - Published `@seoskillsai/cli` that copies skills/scripts from the npm tarball.
 - Live `https://example.com` audit smoke in CI.

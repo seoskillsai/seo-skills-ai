@@ -26,7 +26,7 @@ This plugin does **not** include Google Cloud client IDs or anyone else's analyt
 1. In Google Cloud Console, create an OAuth **Desktop** client.
 2. Enable Search Console API and Google Analytics Data API.
 3. Create `~/.config/seoskillsai/google_credentials.json` (mode `0o600`) with `client_id`, `client_secret`, `refresh_token`, and optional `ga4_property_id`. Do not commit this file.
-4. Run `python scripts/google_oauth.py --setup` (copy-paste authorization code). The file is written mode `0o600`.
+4. Run `python scripts/google_installed_app.py --setup` (copy-paste authorization code). The file is written mode `0o600`.
 
 **Scopes**
 

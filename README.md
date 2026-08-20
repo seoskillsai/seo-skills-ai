@@ -176,7 +176,7 @@ This repo owns a small set of Python HTTP clients. Other vendors are **official 
 | Firecrawl scrape | `scripts/firecrawl_api.py` | `FIRECRAWL_API_KEY` |
 | Bing Webmaster metrics | `scripts/bing_webmaster.py` | `BING_WEBMASTER_API_KEY` |
 | IndexNow submit | `scripts/indexing_notify.py` | IndexNow key (required; no fake accepted counts) |
-| GSC / GA4 | `scripts/gsc_query.py`, `scripts/ga4_report.py` | OAuth file from `google_oauth.py` |
+| GSC / GA4 | `scripts/gsc_query.py`, `scripts/ga4_report.py` | Installed-app file from `google_installed_app.py` |
 
 **Third-party MCP (not our implementation):** Ahrefs (`@ahrefs/mcp`), SE Ranking, Profound, Banana, Unlighthouse. See `extensions/*/README.md`. Example MCP snippets use `${ENV}` placeholders — never commit empty `"API_KEY": ""` as if it were a secret.
 

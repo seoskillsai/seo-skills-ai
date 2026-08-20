@@ -14,7 +14,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from scripts.google_oauth import load_google_credentials, refresh_google_bearer, unavailable
+from scripts.google_installed_app import load_google_credentials, refresh_google_bearer, unavailable
 from scripts.http_json import json_request
 
 GA4_REPORT = "https://analyticsdata.googleapis.com/v1beta/properties/{property_id}:runReport"

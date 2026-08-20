@@ -25,7 +25,7 @@ AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 CRED_DIR = Path.home() / ".config" / "seoskillsai"
 CRED_PATH = CRED_DIR / "google_credentials.json"
 UNAVAILABLE_NOTICE = (
-    "Google credentials were not found. Run: python scripts/google_oauth.py --setup "
+    "Google credentials were not found. Run: python scripts/google_installed_app.py --setup "
     "to write ~/.config/seoskillsai/google_credentials.json (mode 0o600)."
 )
 

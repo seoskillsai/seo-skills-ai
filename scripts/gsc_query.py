@@ -2,7 +2,7 @@
 """
 Google Search Console Search Analytics.
 
-Requires ~/.config/seoskillsai/google_credentials.json from google_oauth.py.
+Requires ~/.config/seoskillsai/google_credentials.json from google_installed_app.py.
 Never invents clicks or impressions.
 """
 from __future__ import annotations
@@ -16,7 +16,7 @@ from urllib.parse import quote
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from scripts.google_oauth import load_google_credentials, refresh_google_bearer, unavailable
+from scripts.google_installed_app import load_google_credentials, refresh_google_bearer, unavailable
 from scripts.http_json import json_request
 from scripts.url_safety import normalize_user_url, validate_url
 

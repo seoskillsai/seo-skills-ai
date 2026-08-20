@@ -2,7 +2,7 @@ import json
 
 from scripts.ga4_report import fetch_ga4_organic_report
 from scripts.gsc_query import query_gsc
-from scripts.google_oauth import get_tier_status, unavailable
+from scripts.google_installed_app import get_tier_status, unavailable
 from scripts.mcp_server import handle_request
 
 
@@ -88,7 +88,7 @@ def test_mcp_gsc_unavailable():
 
 
 def test_tier_status_without_file(monkeypatch, tmp_path):
-    monkeypatch.setattr("scripts.google_oauth.credentials_path", lambda: tmp_path / "missing.json")
+    monkeypatch.setattr("scripts.google_installed_app.credentials_path", lambda: tmp_path / "missing.json")
     status = get_tier_status()
     assert status["status"] == "UNAVAILABLE"
     assert unavailable()["status"] == "UNAVAILABLE"
